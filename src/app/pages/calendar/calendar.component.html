@@ -1,1 +1,98 @@
-<p>calendar works!</p>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+  <!-- Position Column -->
+  <ng-container matColumnDef="demo-position">
+    <th class="month-field" mat-header-cell *matHeaderCellDef>
+      <div class="month-box">
+        <img src="favicon.ico" alt="season">
+        <mat-form-field class="form-field">
+          <mat-label>Select month:</mat-label>
+          <mat-select disableRipple>
+            <mat-option value="January">January</mat-option>
+            <mat-option value="February">February</mat-option>
+            <mat-option value="April">April</mat-option>
+            <mat-option value="May">May</mat-option>
+            <mat-option value="June">June</mat-option>
+            <mat-option value="July">July</mat-option>
+            <mat-option value="August">August</mat-option>
+            <mat-option value="September">September</mat-option>
+            <mat-option value="October">October</mat-option>
+            <mat-option value="November">November</mat-option>
+            <mat-option value="December">December</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+  </ng-container>
+
+  <!-- Name Column
+  <ng-container matColumnDef="demo-name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>-->
+
+  <ng-container class="day-block" matColumnDef="demo-mon" >
+    <th  mat-header-cell *matHeaderCellDef>
+      <p>1350</p>
+      <button (click)="colorDayCalories()">5<br>Mon</button>
+    </th>
+    <td mat-cell *matCellDef="let element"></td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container class="day-block" matColumnDef="demo-tue">
+    <th mat-header-cell *matHeaderCellDef>
+      <p>1515</p>
+      <button>6<br>Tue</button>
+    </th>
+    <td mat-cell *matCellDef="let element"></td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container class="day-block" matColumnDef="demo-wed">
+    <th mat-header-cell *matHeaderCellDef>
+      <p>1515</p>
+      <button>7<br>Wed</button>
+    </th>
+    <td mat-cell *matCellDef="let element"></td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container class="day-block" matColumnDef="demo-thu">
+    <th mat-header-cell *matHeaderCellDef>
+      <p>1515</p>
+      <button>8<br>Thu</button>
+    </th>
+    <td mat-cell *matCellDef="let element"></td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container class="day-block" matColumnDef="demo-fri">
+    <th mat-header-cell *matHeaderCellDef>
+      <p>1515</p>
+      <button>9<br>Fri</button>
+    </th>
+    <td mat-cell *matCellDef="let element"></td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container class="day-block" matColumnDef="demo-sat">
+    <th mat-header-cell *matHeaderCellDef>
+      <p>1515</p>
+      <button>10<br>Sat</button>
+    </th>
+    <td mat-cell *matCellDef="let element"></td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container class="day-block" matColumnDef="demo-sun">
+    <th mat-header-cell *matHeaderCellDef>
+      <p>1515</p>
+      <button>11<br>Sun</button>
+    </th>
+    <td mat-cell *matCellDef="let element"></td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
