@@ -4,6 +4,7 @@ import { CalendarComponent } from './calendar.component';
 import {CalendarRoutingModule} from "./calendar-routing.module";
 import {MatTableModule} from "@angular/material/table";
 import {MatSelectModule} from "@angular/material/select";
+import {FormsModule} from "@angular/forms";
 
 
 
@@ -11,11 +12,12 @@ import {MatSelectModule} from "@angular/material/select";
   declarations: [
     CalendarComponent
   ],
-  imports: [
-    CommonModule,
-    CalendarRoutingModule,
-    MatTableModule,
-    MatSelectModule
-  ]
+    imports: [
+        CommonModule,
+        CalendarRoutingModule,
+        MatTableModule,
+        MatSelectModule,
+        FormsModule
+    ]
 })
 export class CalendarModule { }

@@ -4,8 +4,6 @@ import { Component, OnInit } from '@angular/core';
 export interface PeriodicElement {
   /*name: string;*/
   position: string;
-  /*weight: number;
-  symbol: string;*/
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
@@ -46,28 +44,51 @@ export class CalendarComponent implements OnInit {
   displayedColumns: string[] = ['demo-position', 'demo-mon', 'demo-tue', 'demo-wed', 'demo-thu', 'demo-fri', 'demo-sat', 'demo-sun'];
   dataSource = ELEMENT_DATA;
   calories: Array<number> = [1315,1515,380,1518]
-  bad_calories: Array<number> = []
-  norm_calories: Array<number> = []
-  less_calories: Array<number> = []
+  defaultMonth: string = '';
+  currentDateNumber: number = 1;
+  currentDateName: string = '';
+  nextDayName: string = '';
+  next2DayName: string = '';
+  next3DayName: string = '';
+  previousDayName: string = '';
+  previous2DayName: string = '';
+  previous3DayName: string = '';
 
-  /*currentDate = new Date();
-  monthNames: Array<string> = ["January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
-  month: string = this.monthNames[this.currentDate.getMonth()]*/
 
   constructor() { }
 
-  colorDayCalories(){
-    this.bad_calories = this.calories.filter(el => el>1510)
-    this.norm_calories = this.calories.filter(el => el<=1510&&el>=1230)
-    this.less_calories = this.calories.filter(el => el<1230)
+  getColor(element:number):string{
+    if(element>=1510){
+      return 'red'
+    } if (element<=1230){
+      return 'yellow'
+    } else {
+      return 'blue'
+    }
   }
-  getColor(element:number){
 
+  getCurrentDate(){
+    let currentDate = new Date();
+    let monthNames: Array<string> = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+
+    this.defaultMonth = monthNames[currentDate.getMonth()]
+    this.currentDateNumber = currentDate.getDate()
+    this.currentDateName = currentDate.toLocaleDateString("en-EN", { weekday: 'short' });
   }
+
+  calendar() {
+    let dayNames: Array<string> = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    let index = dayNames.indexOf(this.currentDateName)
+
+    console.log(this.previousDayName)
+  }
+
 
   ngOnInit(): void {
+    this.getCurrentDate()
+    this.calendar()
   }
 
 }
