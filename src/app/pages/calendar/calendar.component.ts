@@ -43,16 +43,11 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class CalendarComponent implements OnInit {
   displayedColumns: string[] = ['demo-position', 'demo-mon', 'demo-tue', 'demo-wed', 'demo-thu', 'demo-fri', 'demo-sat', 'demo-sun'];
   dataSource = ELEMENT_DATA;
-  calories: Array<number> = [1315,1515,380,1518]
+  calories: Array<number> = []
   defaultMonth: string = '';
   currentDateNumber: number = 1;
   currentDateName: string = '';
-  nextDayName: string = '';
-  next2DayName: string = '';
-  next3DayName: string = '';
   previousDayName: string = '';
-  previous2DayName: string = '';
-  previous3DayName: string = '';
 
 
   constructor() { }
@@ -85,10 +80,8 @@ export class CalendarComponent implements OnInit {
     console.log(this.previousDayName)
   }
 
-
   ngOnInit(): void {
     this.getCurrentDate()
     this.calendar()
   }
-
 }
