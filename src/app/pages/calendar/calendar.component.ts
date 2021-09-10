@@ -90,24 +90,24 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-
   selectNextWeek(date:string){
     this.day = +date.toString().slice(8,10)
-    console.log(this.day)
-    this.settedDate.setDate(this.day+7)
-    if(this.day+7 >= 31){
-      console.log("назад месяц не меняет!Исправить!!!")
-      console.log(this.settedDate.toLocaleString("en-us", { month: "long" }))
-      this.defaultMonth = this.settedDate.toLocaleString("en-us", { month: "long" })
+    let c_date = this.day+7
+    if(c_date<=32){
+      this.settedDate.setDate(this.day+7)
+    } else {
+      this.settedDate.setDate(6)
     }
+    this.defaultMonth = this.settedDate.toLocaleString("en-us", { month: "long" })
     this.getDay()
   }
 
   selectPreWeek(date:string){
     this.day = +date.toString().slice(8,10)
-    console.log(this.day)
+    let setm = this.monthNames.indexOf(this.defaultMonth)
+    this.settedDate.setMonth(setm)
     this.settedDate.setDate(this.day-7)
-    console.log(this.settedDate)
+    this.defaultMonth = this.settedDate.toLocaleString("en-us", { month: "long" })
     this.getDay()
   }
 
@@ -136,14 +136,7 @@ export class CalendarComponent implements OnInit {
     this.sunday = this.arr[6]
   }
 
-
-
   ngOnInit(): void {
-    /*this.getCurrentDate()*//*
-    console.log(this.settedDate)*/
     this.getDay()
   }
-
-
-
 }
