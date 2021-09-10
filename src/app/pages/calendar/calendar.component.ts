@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 
 
 export interface PeriodicElement {
   /*name: string;*/
   position: string;
+}
+
+export interface Month {
+
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
@@ -43,11 +47,35 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class CalendarComponent implements OnInit {
   displayedColumns: string[] = ['demo-position', 'demo-mon', 'demo-tue', 'demo-wed', 'demo-thu', 'demo-fri', 'demo-sat', 'demo-sun'];
   dataSource = ELEMENT_DATA;
-  calories: Array<number> = []
-  defaultMonth: string = '';
-  currentDateNumber: number = 1;
-  currentDateName: string = '';
-  previousDayName: string = '';
+
+  monday:any
+  tuesday:any
+  wednesday:any
+  thursday:any
+  friday:any
+  saturday:any
+  sunday:any
+
+  arr:any = []
+
+
+  currentDate = new Date();
+  settedDate = this.currentDate
+  /*monthNames: Array<string> = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];*/
+  /*month: string = this.monthNames[this.currentDate.getMonth()]*/
+  day: number = this.currentDate.getDate()
+  month: number = this.currentDate.getMonth()
+  year: number = this.currentDate.getFullYear()
+
+
+  monthNames: Array<string> = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  dayNames: Array<string> = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+
+  defaultMonth: string = this.monthNames[this.currentDate.getMonth()]
 
 
   constructor() { }
@@ -62,26 +90,60 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  getCurrentDate(){
-    let currentDate = new Date();
-    let monthNames: Array<string> = ["January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
-    ];
 
-    this.defaultMonth = monthNames[currentDate.getMonth()]
-    this.currentDateNumber = currentDate.getDate()
-    this.currentDateName = currentDate.toLocaleDateString("en-EN", { weekday: 'short' });
+  selectNextWeek(date:string){
+    this.day = +date.toString().slice(8,10)
+    console.log(this.day)
+    this.settedDate.setDate(this.day+7)
+    if(this.day+7 >= 31){
+      console.log("назад месяц не меняет!Исправить!!!")
+      console.log(this.settedDate.toLocaleString("en-us", { month: "long" }))
+      this.defaultMonth = this.settedDate.toLocaleString("en-us", { month: "long" })
+    }
+    this.getDay()
   }
 
-  calendar() {
-    let dayNames: Array<string> = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-    let index = dayNames.indexOf(this.currentDateName)
-
-    console.log(this.previousDayName)
+  selectPreWeek(date:string){
+    this.day = +date.toString().slice(8,10)
+    console.log(this.day)
+    this.settedDate.setDate(this.day-7)
+    console.log(this.settedDate)
+    this.getDay()
   }
+
+  selectMonth(event: any) {
+    this.defaultMonth = event.value;
+    let setm = this.monthNames.indexOf(this.defaultMonth)
+    this.settedDate.setMonth(setm)
+    this.getDay()
+  }
+
+  getDay() {
+    this.arr = []
+    for(let i=0;i<=6;i++){
+      let d = this.settedDate;
+      let day = d.getDay()
+      let diff = d.getDate() - (day-i) + (day == 0 ? -6:1)
+      this.arr.push(new Date(d.setDate(diff)))
+    }
+    /*console.log(this.arr)*/
+    this.monday = this.arr[0]
+    this.tuesday = this.arr[1]
+    this.wednesday = this.arr[2]
+    this.thursday = this.arr[3]
+    this.friday = this.arr[4]
+    this.saturday = this.arr[5]
+    this.sunday = this.arr[6]
+  }
+
+
 
   ngOnInit(): void {
-    this.getCurrentDate()
-    this.calendar()
+    /*this.getCurrentDate()*//*
+    console.log(this.settedDate)*/
+    this.getDay()
   }
+
+
+
 }
