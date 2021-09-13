@@ -5,7 +5,7 @@ const routes: Routes = [{
   path: 'calendar', loadChildren: () => import('./pages/calendar/calendar.module').then(m => m.CalendarModule)
   },
   {
-    path: '', redirectTo: 'home', pathMatch: 'full'
+    path: '', redirectTo: 'calendar', pathMatch: 'full'
   }];
 
 @NgModule({

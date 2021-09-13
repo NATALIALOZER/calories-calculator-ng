@@ -91,9 +91,15 @@ export class CalendarComponent implements OnInit {
   }
 
   selectNextWeek(date:string){
+    let current_month =  this.settedDate.getMonth()
+    let next_month = current_month+1
+    let data_1: Date = new Date(this.year, current_month, 1)
+    let data_2: Date = new Date(this.year, next_month, 1)
+    // @ts-ignore
+    let num_days_current_month = Math.round((data_2 - data_1)/1000/3600/24)
     this.day = +date.toString().slice(8,10)
     let c_date = this.day+7
-    if(c_date<=32){
+    if(c_date<=num_days_current_month+1){
       this.settedDate.setDate(this.day+7)
     } else {
       this.settedDate.setDate(6)
