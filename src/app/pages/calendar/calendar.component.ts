@@ -1,9 +1,11 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {MealService} from "../meal/meal.service";
+import {Meal} from "../meal/meal.component";
 
 
 export interface PeriodicElement {
-  /*name: string;*/
   position: string;
+  id: number;
 }
 
 export interface Month {
@@ -11,31 +13,30 @@ export interface Month {
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  /*{position: '08:00', name: 'Hydrogen', weight: 1.0079, symbol: 'H'},*/
-  {position: '01:00'},
-  {position: '02:00'},
-  {position: '03:00'},
-  {position: '04:00'},
-  {position: '05:00'},
-  {position: '06:00'},
-  {position: '07:00'},
-  {position: '08:00'},
-  {position: '09:00'},
-  {position: '10:00'},
-  {position: '11:00'},
-  {position: '12:00'},
-  {position: '13:00'},
-  {position: '14:00'},
-  {position: '15:00'},
-  {position: '16:00'},
-  {position: '17:00'},
-  {position: '18:00'},
-  {position: '19:00'},
-  {position: '20:00'},
-  {position: '21:00'},
-  {position: '22:00'},
-  {position: '23:00'},
-  {position: '24:00'},
+  {position: '01:00', id: 1},
+  {position: '02:00', id: 2},
+  {position: '03:00', id: 3},
+  {position: '04:00', id: 4},
+  {position: '05:00', id: 5},
+  {position: '06:00', id: 6},
+  {position: '07:00', id: 7},
+  {position: '08:00', id: 8},
+  {position: '09:00', id: 9},
+  {position: '10:00', id: 10},
+  {position: '11:00', id: 11},
+  {position: '12:00', id: 12},
+  {position: '13:00', id: 13},
+  {position: '14:00', id: 14},
+  {position: '15:00', id: 15},
+  {position: '16:00', id: 16},
+  {position: '17:00', id: 17},
+  {position: '18:00', id: 18},
+  {position: '19:00', id: 19},
+  {position: '20:00', id: 20},
+  {position: '21:00', id: 21},
+  {position: '22:00', id: 22},
+  {position: '23:00', id: 23},
+  {position: '24:00', id: 24},
 
 ];
 
@@ -45,6 +46,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./calendar.component.scss']
 })
 export class CalendarComponent implements OnInit {
+  mealText!: Meal;
+
   displayedColumns: string[] = ['demo-position', 'demo-mon', 'demo-tue', 'demo-wed', 'demo-thu', 'demo-fri', 'demo-sat', 'demo-sun'];
   dataSource = ELEMENT_DATA;
 
@@ -57,8 +60,6 @@ export class CalendarComponent implements OnInit {
   sunday:any
 
   arr:any = []
-
-
   currentDate = new Date();
   settedDate = this.currentDate
   /*monthNames: Array<string> = ["January", "February", "March", "April", "May", "June",
@@ -66,8 +67,10 @@ export class CalendarComponent implements OnInit {
   ];*/
   /*month: string = this.monthNames[this.currentDate.getMonth()]*/
   day: number = this.currentDate.getDate()
+
   month: number = this.currentDate.getMonth()
   year: number = this.currentDate.getFullYear()
+
 
 
   monthNames: Array<string> = ["January", "February", "March", "April", "May", "June",
@@ -78,7 +81,7 @@ export class CalendarComponent implements OnInit {
   defaultMonth: string = this.monthNames[this.currentDate.getMonth()]
 
 
-  constructor() { }
+  constructor(private meal: MealService) { }
 
   getColor(element:number):string{
     if(element>=1510){
@@ -100,6 +103,7 @@ export class CalendarComponent implements OnInit {
     this.day = +date.toString().slice(8,10)
     let c_date = this.day+7
     if(c_date<=num_days_current_month+1){
+
       this.settedDate.setDate(this.day+7)
     } else {
       this.settedDate.setDate(6)
@@ -112,6 +116,7 @@ export class CalendarComponent implements OnInit {
     this.day = +date.toString().slice(8,10)
     let setm = this.monthNames.indexOf(this.defaultMonth)
     this.settedDate.setMonth(setm)
+
     this.settedDate.setDate(this.day-7)
     this.defaultMonth = this.settedDate.toLocaleString("en-us", { month: "long" })
     this.getDay()
@@ -120,6 +125,7 @@ export class CalendarComponent implements OnInit {
   selectMonth(event: any) {
     this.defaultMonth = event.value;
     let setm = this.monthNames.indexOf(this.defaultMonth)
+
     this.settedDate.setMonth(setm)
     this.getDay()
   }
@@ -144,12 +150,32 @@ export class CalendarComponent implements OnInit {
 
   ngOnInit(): void {
     this.getDay()
+    this.meal.isHtml.subscribe((html: any) => {
+      this.mealText = html
+      console.log(this.mealText.time)
+      let that_day = this.day
+      let time = this.mealText.time
+      let pos = ELEMENT_DATA.find((el: { position: any; })=>el.position==time)
+      console.log(pos)
+    });
+    this.setDataToCell()
+    /*console.log(this.isHtml)*/
+
   }
 
   setData(event: any) {
-    let cell = event.target
+    /*let cell = event.target*/
     /*cell.classList.add('blue_cell')*/
-    console.log(cell.classList)
+    /*console.log(cell.classList)*/
     /*console.log(cell.)*/
   }
+
+  setDataToCell() {
+
+    /*let cell = event.target*/
+    /*cell.classList.add('blue_cell')*/
+    /*console.log(cell.classList)*/
+    /*console.log(cell.)*/
+  }
+
 }

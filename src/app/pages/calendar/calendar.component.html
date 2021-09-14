@@ -36,9 +36,8 @@
       <button (click)="selectPreWeek(monday)">←</button>
       <p [class]="getColor(1350)">1350</p>
       <button class="calcBtn" >{{monday | date: 'd ccc' }}</button>
-
     </th>
-    <td mat-cell *matCellDef (click)="setData($event)"></td>
+    <td mat-cell *matCellDef="let element" [id]="element.id"></td>
   </ng-container>
 
   <ng-container class="day-block" matColumnDef="demo-tue">

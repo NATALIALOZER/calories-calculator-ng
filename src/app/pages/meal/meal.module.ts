@@ -5,6 +5,8 @@ import {MealRoutingModule} from "./meal-routing.module";
 import {MatButtonModule} from "@angular/material/button";
 import {MatInputModule} from "@angular/material/input";
 import {ImageUploadModule} from "../../shared/component/image-upload/image-upload.module";
+import {AddedMealModule} from "../../shared/component/added-meal/added-meal.module";
+import {FormsModule} from "@angular/forms";
 
 
 
@@ -17,7 +19,9 @@ import {ImageUploadModule} from "../../shared/component/image-upload/image-uploa
         MealRoutingModule,
         MatButtonModule,
         MatInputModule,
-        ImageUploadModule
+        ImageUploadModule,
+        AddedMealModule,
+        FormsModule
     ]
 })
 export class MealModule { }
