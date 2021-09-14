@@ -1,0 +1,27 @@
+.meal{
+  display: flex;
+  flex-direction: column;
+  padding:0 20px;
+  align-items: center;
+  &-form {
+    width: 100%;
+  }
+  &-full-width {
+    width: 100%;
+  }
+  &-short-width {
+    width: auto;
+  }
+  &-add-button{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  tr{
+
+  }
+  td {
+    padding-right: 8px;
+  }
+}

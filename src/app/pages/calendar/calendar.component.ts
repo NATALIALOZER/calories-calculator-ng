@@ -145,4 +145,11 @@ export class CalendarComponent implements OnInit {
   ngOnInit(): void {
     this.getDay()
   }
+
+  setData(event: any) {
+    let cell = event.target
+    /*cell.classList.add('blue_cell')*/
+    console.log(cell.classList)
+    /*console.log(cell.)*/
+  }
 }

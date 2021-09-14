@@ -6,7 +6,12 @@ const routes: Routes = [{
   },
   {
     path: '', redirectTo: 'calendar', pathMatch: 'full'
-  }];
+  },
+  {
+    path: 'meal', loadChildren: () => import('./pages/meal/meal.module').then(m => m.MealModule)
+  },
+
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

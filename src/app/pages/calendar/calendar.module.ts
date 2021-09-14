@@ -5,6 +5,8 @@ import {CalendarRoutingModule} from "./calendar-routing.module";
 import {MatTableModule} from "@angular/material/table";
 import {MatSelectModule} from "@angular/material/select";
 import {FormsModule} from "@angular/forms";
+import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
 
 
 
@@ -12,12 +14,14 @@ import {FormsModule} from "@angular/forms";
   declarations: [
     CalendarComponent
   ],
-    imports: [
-        CommonModule,
-        CalendarRoutingModule,
-        MatTableModule,
-        MatSelectModule,
-        FormsModule
-    ]
+  imports: [
+    CommonModule,
+    CalendarRoutingModule,
+    MatTableModule,
+    MatSelectModule,
+    FormsModule,
+    MatIconModule,
+    MatButtonModule
+  ]
 })
 export class CalendarModule { }
