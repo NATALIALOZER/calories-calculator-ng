@@ -1,14 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MealService} from "./meal.service";
 
-export interface Meal {
+/*export interface Meal {
   title: string;
   time: any;
-  /*kcal: number
+  /!*kcal: number
   fats: number;
   proteins: number;
-  carbohydrates: number;*/
-}
+  carbohydrates: number;*!/
+}*/
 
 @Component({
   selector: 'app-meal',
@@ -25,7 +25,7 @@ export class MealComponent implements OnInit {
   proteins: any;
   carbohydrates: any;
 
-  meal_data: Meal[] = [];
+  meal_data: any[] = []
 
   constructor(private meal: MealService) { }
 
@@ -38,8 +38,8 @@ export class MealComponent implements OnInit {
       html.previousSibling.style.display = 'none'
       html.nextSibling.style.display = 'none'
       html.parentElement.previousSibling.firstChild.firstChild.innerHTML = 'Back'
-      this.meal_data.push(this.title,this.time)
-
+      let all_info = {t:this.title,k:this.kcal,f:this.fats,p:this.proteins,c:this.carbohydrates}
+      this.meal_data.push(all_info,this.time)
       this.meal.setHtml(this.meal_data)
     }
     else {

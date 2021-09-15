@@ -10,6 +10,8 @@ export class MealService {
   public isHtml = new Subject();
 
   setHtml(data: any) {
+
+
     this.isHtml.next(data);
     /*console.log(data)*/
   }

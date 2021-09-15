@@ -37,7 +37,9 @@
       <p [class]="getColor(1350)">1350</p>
       <button class="calcBtn" >{{monday | date: 'd ccc' }}</button>
     </th>
-    <td mat-cell *matCellDef="let element" [id]="element.id"></td>
+    <td mat-cell *matCellDef="let element" [id]="element.id">
+      <span *ngIf="element.data&&day==monday_date">{{element.data.t}}</span>
+    </td>
   </ng-container>
 
   <ng-container class="day-block" matColumnDef="demo-tue">
@@ -55,7 +57,9 @@
       <p [class]="getColor(980)">980</p>
       <button class = "calcBtn" >{{wednesday | date: 'd ccc' }}</button>
     </th>
-    <td mat-cell *matCellDef="let element"></td>
+    <td mat-cell *matCellDef="let element">
+      <div class="data-cell" *ngIf="element.data&&day==wednesday_date" [ngStyle]="{'background-color':'cornflowerblue'}">{{element.data.t}}. Kcal: {{element.data.k}} Fats: {{element.data.f}} Proteins: {{element.data.p}} Carbohydrates: {{element.data.c}}</div>
+    </td>
   </ng-container>
 
   <!--Current date-->

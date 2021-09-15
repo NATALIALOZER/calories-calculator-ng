@@ -1,11 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MealService} from "../meal/meal.service";
-import {Meal} from "../meal/meal.component";
 
 
 export interface PeriodicElement {
   position: string;
   id: number;
+  data?: string;
 }
 
 export interface Month {
@@ -46,20 +46,22 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./calendar.component.scss']
 })
 export class CalendarComponent implements OnInit {
-  mealText!: Meal;
+  mealText: any[] = [];
 
   displayedColumns: string[] = ['demo-position', 'demo-mon', 'demo-tue', 'demo-wed', 'demo-thu', 'demo-fri', 'demo-sat', 'demo-sun'];
   dataSource = ELEMENT_DATA;
 
-  monday:any
-  tuesday:any
-  wednesday:any
-  thursday:any
-  friday:any
-  saturday:any
-  sunday:any
+  monday: any
+  monday_date:any
+  tuesday: any
+  wednesday: any
+  wednesday_date: any
+  thursday: any
+  friday: any
+  saturday: any
+  sunday: any
 
-  arr:any = []
+  arr: any = []
   currentDate = new Date();
   settedDate = this.currentDate
   /*monthNames: Array<string> = ["January", "February", "March", "April", "May", "June",
@@ -72,7 +74,6 @@ export class CalendarComponent implements OnInit {
   year: number = this.currentDate.getFullYear()
 
 
-
   monthNames: Array<string> = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
   ];
@@ -81,44 +82,46 @@ export class CalendarComponent implements OnInit {
   defaultMonth: string = this.monthNames[this.currentDate.getMonth()]
 
 
-  constructor(private meal: MealService) { }
+  constructor(private meal: MealService) {
+  }
 
-  getColor(element:number):string{
-    if(element>=1510){
+  getColor(element: number): string {
+    if (element >= 1510) {
       return 'red'
-    } if (element<=1230){
+    }
+    if (element <= 1230) {
       return 'yellow'
     } else {
       return 'blue'
     }
   }
 
-  selectNextWeek(date:string){
-    let current_month =  this.settedDate.getMonth()
-    let next_month = current_month+1
+  selectNextWeek(date: string) {
+    let current_month = this.settedDate.getMonth()
+    let next_month = current_month + 1
     let data_1: Date = new Date(this.year, current_month, 1)
     let data_2: Date = new Date(this.year, next_month, 1)
     // @ts-ignore
-    let num_days_current_month = Math.round((data_2 - data_1)/1000/3600/24)
-    this.day = +date.toString().slice(8,10)
-    let c_date = this.day+7
-    if(c_date<=num_days_current_month+1){
+    let num_days_current_month = Math.round((data_2 - data_1) / 1000 / 3600 / 24)
+    this.day = +date.toString().slice(8, 10)
+    let c_date = this.day + 7
+    if (c_date <= num_days_current_month + 1) {
 
-      this.settedDate.setDate(this.day+7)
+      this.settedDate.setDate(this.day + 7)
     } else {
       this.settedDate.setDate(6)
     }
-    this.defaultMonth = this.settedDate.toLocaleString("en-us", { month: "long" })
+    this.defaultMonth = this.settedDate.toLocaleString("en-us", {month: "long"})
     this.getDay()
   }
 
-  selectPreWeek(date:string){
-    this.day = +date.toString().slice(8,10)
+  selectPreWeek(date: string) {
+    this.day = +date.toString().slice(8, 10)
     let setm = this.monthNames.indexOf(this.defaultMonth)
     this.settedDate.setMonth(setm)
 
-    this.settedDate.setDate(this.day-7)
-    this.defaultMonth = this.settedDate.toLocaleString("en-us", { month: "long" })
+    this.settedDate.setDate(this.day - 7)
+    this.defaultMonth = this.settedDate.toLocaleString("en-us", {month: "long"})
     this.getDay()
   }
 
@@ -132,16 +135,18 @@ export class CalendarComponent implements OnInit {
 
   getDay() {
     this.arr = []
-    for(let i=0;i<=6;i++){
+    for (let i = 0; i <= 6; i++) {
       let d = this.settedDate;
       let day = d.getDay()
-      let diff = d.getDate() - (day-i) + (day == 0 ? -6:1)
+      let diff = d.getDate() - (day - i) + (day == 0 ? -6 : 1)
       this.arr.push(new Date(d.setDate(diff)))
     }
-    /*console.log(this.arr)*/
     this.monday = this.arr[0]
     this.tuesday = this.arr[1]
     this.wednesday = this.arr[2]
+    this.wednesday_date= this.wednesday.getDate()
+    console.log(this.wednesday_date)
+    console.log(this.day==this.wednesday_date)
     this.thursday = this.arr[3]
     this.friday = this.arr[4]
     this.saturday = this.arr[5]
@@ -151,16 +156,10 @@ export class CalendarComponent implements OnInit {
   ngOnInit(): void {
     this.getDay()
     this.meal.isHtml.subscribe((html: any) => {
-      this.mealText = html
-      console.log(this.mealText.time)
-      let that_day = this.day
-      let time = this.mealText.time
-      let pos = ELEMENT_DATA.find((el: { position: any; })=>el.position==time)
-      console.log(pos)
+      this.mealText = html;
+      console.log(html)
+      this.setDataToCell(this.mealText[1], this.mealText[0])
     });
-    this.setDataToCell()
-    /*console.log(this.isHtml)*/
-
   }
 
   setData(event: any) {
@@ -170,12 +169,15 @@ export class CalendarComponent implements OnInit {
     /*console.log(cell.)*/
   }
 
-  setDataToCell() {
-
-    /*let cell = event.target*/
-    /*cell.classList.add('blue_cell')*/
-    /*console.log(cell.classList)*/
-    /*console.log(cell.)*/
+  setDataToCell(time: any, text: string): void {
+    for (let el in ELEMENT_DATA) {
+      console.log(ELEMENT_DATA[el].position)
+      console.log(time)
+      console.log(ELEMENT_DATA[el].position==time)
+      if (ELEMENT_DATA[el].position == time) {
+        ELEMENT_DATA[el].data = text
+        console.log(ELEMENT_DATA[el])
+      }
+    }
   }
-
 }
