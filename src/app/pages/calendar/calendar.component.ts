@@ -5,7 +5,7 @@ import {MealService} from "../meal/meal.service";
 export interface PeriodicElement {
   position: string;
   id: number;
-  data?: string;
+  data?: any;
 }
 
 export interface Month {
@@ -51,27 +51,28 @@ export class CalendarComponent implements OnInit {
   displayedColumns: string[] = ['demo-position', 'demo-mon', 'demo-tue', 'demo-wed', 'demo-thu', 'demo-fri', 'demo-sat', 'demo-sun'];
   dataSource = ELEMENT_DATA;
 
+  currentDate = new Date();
+  settedDate = this.currentDate
+  day: number = this.currentDate.getDate()
+  month: number = this.currentDate.getMonth()
+  year: number = this.currentDate.getFullYear()
   monday: any
   monday_date:any
   tuesday: any
+  tuesday_date:any
   wednesday: any
   wednesday_date: any
   thursday: any
+  thursday_date:any
   friday: any
+  friday_date:any
   saturday: any
+  saturday_date:any
   sunday: any
-
+  sunday_date:any
+  current_week_dates: any;
   arr: any = []
-  currentDate = new Date();
-  settedDate = this.currentDate
-  /*monthNames: Array<string> = ["January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];*/
-  /*month: string = this.monthNames[this.currentDate.getMonth()]*/
-  day: number = this.currentDate.getDate()
 
-  month: number = this.currentDate.getMonth()
-  year: number = this.currentDate.getFullYear()
 
 
   monthNames: Array<string> = ["January", "February", "March", "April", "May", "June",
@@ -142,41 +143,45 @@ export class CalendarComponent implements OnInit {
       this.arr.push(new Date(d.setDate(diff)))
     }
     this.monday = this.arr[0]
+    this.monday_date = this.monday.getDate()
     this.tuesday = this.arr[1]
+    this.tuesday_date = this.tuesday.getDate()
     this.wednesday = this.arr[2]
     this.wednesday_date= this.wednesday.getDate()
-    console.log(this.wednesday_date)
-    console.log(this.day==this.wednesday_date)
     this.thursday = this.arr[3]
+    this.thursday_date = this.thursday.getDate()
     this.friday = this.arr[4]
+    this.friday_date = this.friday.getDate()
     this.saturday = this.arr[5]
+    this.saturday_date = this.saturday.getDate()
     this.sunday = this.arr[6]
+    this.sunday_date = this.sunday.getDate()
+    this.current_week_dates = []
+    this.current_week_dates.push(this.monday_date,this.tuesday_date,this.wednesday_date,this.thursday_date,this.friday_date,this.saturday_date,this.sunday_date)
   }
+
 
   ngOnInit(): void {
     this.getDay()
-    this.meal.isHtml.subscribe((html: any) => {
-      this.mealText = html;
-      console.log(html)
-      this.setDataToCell(this.mealText[1], this.mealText[0])
-    });
+    this.setDataToCell()
   }
 
-  setData(event: any) {
-    /*let cell = event.target*/
-    /*cell.classList.add('blue_cell')*/
-    /*console.log(cell.classList)*/
-    /*console.log(cell.)*/
-  }
+  setDataToCell(): void {
+    for(let i in this.current_week_dates){
 
-  setDataToCell(time: any, text: string): void {
-    for (let el in ELEMENT_DATA) {
-      console.log(ELEMENT_DATA[el].position)
-      console.log(time)
-      console.log(ELEMENT_DATA[el].position==time)
-      if (ELEMENT_DATA[el].position == time) {
-        ELEMENT_DATA[el].data = text
-        console.log(ELEMENT_DATA[el])
+      for (let el in ELEMENT_DATA) {
+        let key = `${this.current_week_dates[i]}/${this.month+1}/${ELEMENT_DATA[el].position}`
+
+        let pre = this.meal.getStorage(key)
+        if(pre){
+          console.log(ELEMENT_DATA[el].position)
+          console.log(pre.time)
+          console.log(ELEMENT_DATA[el].position == pre.time)
+          if (ELEMENT_DATA[el].position == pre.time) {
+            ELEMENT_DATA[el].data = pre.info
+          }
+          /*console.log(ELEMENT_DATA[el])*/
+        }
       }
     }
   }

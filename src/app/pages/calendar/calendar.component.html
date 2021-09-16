@@ -38,7 +38,7 @@
       <button class="calcBtn" >{{monday | date: 'd ccc' }}</button>
     </th>
     <td mat-cell *matCellDef="let element" [id]="element.id">
-      <span *ngIf="element.data&&day==monday_date">{{element.data.t}}</span>
+      <!--<div class="data-cell" *ngIf="element.data&&day==monday_date" [ngStyle]="{'background-color':'cornflowerblue'}">{{element.data.t}}. Kcal: {{element.data.k}} Fats: {{element.data.f}} Proteins: {{element.data.p}} Carbohydrates: {{element.data.c}}</div>-->
     </td>
   </ng-container>
 
@@ -48,7 +48,9 @@
       <p [class]="getColor(1515)">1515</p>
       <button class = "calcBtn" >{{tuesday | date: 'd ccc' }}</button>
     </th>
-    <td mat-cell *matCellDef="let element"></td>
+    <td mat-cell *matCellDef="let element">
+      <!--<div class="data-cell" *ngIf="element.data&&day==tuesday_date" [ngStyle]="{'background-color':'cornflowerblue'}">{{element.data.t}}. Kcal: {{element.data.k}} Fats: {{element.data.f}} Proteins: {{element.data.p}} Carbohydrates: {{element.data.c}}</div>-->
+    </td>
   </ng-container>
 
   <ng-container class="day-block" matColumnDef="demo-wed">
@@ -58,7 +60,7 @@
       <button class = "calcBtn" >{{wednesday | date: 'd ccc' }}</button>
     </th>
     <td mat-cell *matCellDef="let element">
-      <div class="data-cell" *ngIf="element.data&&day==wednesday_date" [ngStyle]="{'background-color':'cornflowerblue'}">{{element.data.t}}. Kcal: {{element.data.k}} Fats: {{element.data.f}} Proteins: {{element.data.p}} Carbohydrates: {{element.data.c}}</div>
+      <!--<div class="data-cell" *ngIf="element.data&&day==wednesday_date" [ngStyle]="{'background-color':'cornflowerblue'}">{{element.data.t}}. Kcal: {{element.data.k}} Fats: {{element.data.f}} Proteins: {{element.data.p}} Carbohydrates: {{element.data.c}}</div>-->
     </td>
   </ng-container>
 
@@ -69,7 +71,9 @@
       <p [class]="getColor(1350)">1350</p>
       <button class = "calcBtn" >{{thursday | date: 'd ccc' }}</button>
     </th>
-    <td mat-cell *matCellDef="let element"></td>
+    <td mat-cell *matCellDef="let element">
+      <div class="data-cell" *ngIf="element.data&&day==thursday_date" [ngStyle]="{'background-color':'cornflowerblue'}">{{element.data.t}}. Kcal: {{element.data.k}} Fats: {{element.data.f}} Proteins: {{element.data.p}} Carbohydrates: {{element.data.c}}</div>
+    </td>
   </ng-container>
 
   <ng-container class="day-block" matColumnDef="demo-fri">
@@ -78,7 +82,9 @@
       <p [class]="getColor(1515)">1515</p>
       <button class ="calcBtn" >{{friday | date: 'd ccc' }}</button>
     </th>
-    <td mat-cell *matCellDef="let element"></td>
+    <td mat-cell *matCellDef="let element">
+      <!--<div class="data-cell" *ngIf="element.data&&day==friday_date" [ngStyle]="{'background-color':'cornflowerblue'}">{{element.data.t}}. Kcal: {{element.data.k}} Fats: {{element.data.f}} Proteins: {{element.data.p}} Carbohydrates: {{element.data.c}}</div>-->
+    </td>
   </ng-container>
 
   <ng-container class="day-block" matColumnDef="demo-sat">
@@ -87,7 +93,9 @@
       <p [class]="getColor(1350)">1350</p>
       <button class = "calcBtn" >{{saturday | date: 'd ccc' }}</button>
     </th>
-    <td mat-cell *matCellDef="let element"></td>
+    <td mat-cell *matCellDef="let element">
+      <!--<div class="data-cell" *ngIf="element.data&&day==saturday_date" [ngStyle]="{'background-color':'cornflowerblue'}">{{element.data.t}}. Kcal: {{element.data.k}} Fats: {{element.data.f}} Proteins: {{element.data.p}} Carbohydrates: {{element.data.c}}</div>-->
+    </td>
   </ng-container>
 
   <ng-container class="day-block" matColumnDef="demo-sun">
@@ -96,7 +104,9 @@
       <p [class]="getColor(980)">980</p>
       <button class = "calcBtn" >{{sunday | date: 'd ccc' }}</button>
     </th>
-    <td mat-cell *matCellDef="let element"></td>
+    <td mat-cell *matCellDef="let element">
+      <!--<div class="data-cell" *ngIf="element.data&&day==sunday_date" [ngStyle]="{'background-color':'cornflowerblue'}">{{element.data.t}}. Kcal: {{element.data.k}} Fats: {{element.data.f}} Proteins: {{element.data.p}} Carbohydrates: {{element.data.c}}</div>-->
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

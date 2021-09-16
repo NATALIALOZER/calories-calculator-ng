@@ -25,7 +25,10 @@ export class MealComponent implements OnInit {
   proteins: any;
   carbohydrates: any;
 
-  meal_data: any[] = []
+  /*meal_data: any*/
+  date: Date = new Date()
+  month: number = this.date.getMonth()
+  day: number = this.date.getDate()
 
   constructor(private meal: MealService) { }
 
@@ -38,9 +41,16 @@ export class MealComponent implements OnInit {
       html.previousSibling.style.display = 'none'
       html.nextSibling.style.display = 'none'
       html.parentElement.previousSibling.firstChild.firstChild.innerHTML = 'Back'
-      let all_info = {t:this.title,k:this.kcal,f:this.fats,p:this.proteins,c:this.carbohydrates}
-      this.meal_data.push(all_info,this.time)
-      this.meal.setHtml(this.meal_data)
+
+      let storage: any = {};
+      if(this.time.length<5){
+        this.time = "0"+this.time
+      }
+      let date_id = `${this.day}/${this.month+1}/${this.time}`
+      storage['info']  = {t:this.title,k:this.kcal,f:this.fats,p:this.proteins,c:this.carbohydrates}
+      storage['time'] = this.time;
+      this.meal.setStorage(date_id, storage)
+      /*localStorage.clear()*/
     }
     else {
       alert("Не все данные указаны!")
