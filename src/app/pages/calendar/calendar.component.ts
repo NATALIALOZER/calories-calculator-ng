@@ -98,32 +98,37 @@ export class CalendarComponent implements OnInit {
   }
 
   selectNextWeek(date: string) {
+    let day = this.day
     let current_month = this.settedDate.getMonth()
     let next_month = current_month + 1
     let data_1: Date = new Date(this.year, current_month, 1)
     let data_2: Date = new Date(this.year, next_month, 1)
     // @ts-ignore
     let num_days_current_month = Math.round((data_2 - data_1) / 1000 / 3600 / 24)
-    this.day = +date.toString().slice(8, 10)
-    let c_date = this.day + 7
+    day = +date.toString().slice(8, 10)
+
+    let c_date = day + 7
     if (c_date <= num_days_current_month + 1) {
 
-      this.settedDate.setDate(this.day + 7)
+      this.settedDate.setDate(day + 7)
     } else {
       this.settedDate.setDate(6)
     }
     this.defaultMonth = this.settedDate.toLocaleString("en-us", {month: "long"})
     this.getDay()
+    this.setDataToCell()
   }
 
   selectPreWeek(date: string) {
-    this.day = +date.toString().slice(8, 10)
+    let day = this.day
+    day = +date.toString().slice(8, 10)
     let setm = this.monthNames.indexOf(this.defaultMonth)
     this.settedDate.setMonth(setm)
 
-    this.settedDate.setDate(this.day - 7)
+    this.settedDate.setDate(day - 7)
     this.defaultMonth = this.settedDate.toLocaleString("en-us", {month: "long"})
     this.getDay()
+    this.setDataToCell()
   }
 
   selectMonth(event: any) {
@@ -132,6 +137,8 @@ export class CalendarComponent implements OnInit {
 
     this.settedDate.setMonth(setm)
     this.getDay()
+
+    this.setDataToCell()
   }
 
   getDay() {
@@ -160,29 +167,33 @@ export class CalendarComponent implements OnInit {
     this.current_week_dates.push(this.monday_date,this.tuesday_date,this.wednesday_date,this.thursday_date,this.friday_date,this.saturday_date,this.sunday_date)
   }
 
-
-  ngOnInit(): void {
-    this.getDay()
-    this.setDataToCell()
-  }
-
   setDataToCell(): void {
-    for(let i in this.current_week_dates){
-
+    console.log(this.day)
+    console.log(this.thursday_date)
+    for(let i in this.current_week_dates){/*
+      console.log(this.current_week_dates[i])*/
       for (let el in ELEMENT_DATA) {
         let key = `${this.current_week_dates[i]}/${this.month+1}/${ELEMENT_DATA[el].position}`
 
         let pre = this.meal.getStorage(key)
+
         if(pre){
           console.log(ELEMENT_DATA[el].position)
           console.log(pre.time)
           console.log(ELEMENT_DATA[el].position == pre.time)
           if (ELEMENT_DATA[el].position == pre.time) {
             ELEMENT_DATA[el].data = pre.info
+            console.log(ELEMENT_DATA[el].data)
           }
           /*console.log(ELEMENT_DATA[el])*/
         }
       }
     }
+  }
+
+
+  ngOnInit(): void {
+    this.getDay()
+    this.setDataToCell()
   }
 }
