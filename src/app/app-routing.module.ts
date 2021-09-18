@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [{
-  path: 'calendar', loadChildren: () => import('./pages/calendar/calendar.module').then(m => m.CalendarModule)
+  path: 'schedule', loadChildren: () => import('./pages/schedule/schedule.module').then(m => m.ScheduleModule)
   },
   {
-    path: '', redirectTo: 'calendar', pathMatch: 'full'
+    path: '', redirectTo: 'schedule', pathMatch: 'full'
   },
   {
     path: 'meal', loadChildren: () => import('./pages/meal/meal.module').then(m => m.MealModule)

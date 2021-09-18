@@ -22,7 +22,7 @@
         </mat-form-field>
       </div>
     </th>
-    <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+    <td mat-cell *matCellDef="let element; let i = index"> {{element.time}} </td>
   </ng-container>
 
   <!--
@@ -38,7 +38,7 @@
       <button class="calcBtn" >{{monday | date: 'd ccc' }}</button>
     </th>
     <td mat-cell *matCellDef="let element" [id]="element.id">
-      <!--<div class="data-cell" *ngIf="element.data&&day==monday_date" [ngStyle]="{'background-color':'cornflowerblue'}">{{element.data.t}}. Kcal: {{element.data.k}} Fats: {{element.data.f}} Proteins: {{element.data.p}} Carbohydrates: {{element.data.c}}</div>-->
+      <!--<div class="data-cell" *ngIf="element.data&&datdat==monday_date" [ngStyle]="{'background-color':'cornflowerblue'}">{{element.data.t}}. Kcal: {{element.data.k}} Fats: {{element.data.f}} Proteins: {{element.data.p}} Carbohydrates: {{element.data.c}}</div>-->
     </td>
   </ng-container>
 
@@ -49,7 +49,7 @@
       <button class = "calcBtn" >{{tuesday | date: 'd ccc' }}</button>
     </th>
     <td mat-cell *matCellDef="let element">
-      <!--<div class="data-cell" *ngIf="element.data&&day==tuesday_date" [ngStyle]="{'background-color':'cornflowerblue'}">{{element.data.t}}. Kcal: {{element.data.k}} Fats: {{element.data.f}} Proteins: {{element.data.p}} Carbohydrates: {{element.data.c}}</div>-->
+      <!--<div class="data-cell" *ngIf="element.data&&datdat==tuesday_date" [ngStyle]="{'background-color':'cornflowerblue'}">{{element.data.t}}. Kcal: {{element.data.k}} Fats: {{element.data.f}} Proteins: {{element.data.p}} Carbohydrates: {{element.data.c}}</div>-->
     </td>
   </ng-container>
 
@@ -60,7 +60,7 @@
       <button class = "calcBtn" >{{wednesday | date: 'd ccc' }}</button>
     </th>
     <td mat-cell *matCellDef="let element">
-      <!--<div class="data-cell" *ngIf="element.data&&day==wednesday_date" [ngStyle]="{'background-color':'cornflowerblue'}">{{element.data.t}}. Kcal: {{element.data.k}} Fats: {{element.data.f}} Proteins: {{element.data.p}} Carbohydrates: {{element.data.c}}</div>-->
+      <!--<div class="data-cell" *ngIf="element.date" [ngStyle]="{'background-color':'cornflowerblue'}">{{element}}</div>-->
     </td>
   </ng-container>
 
@@ -72,7 +72,7 @@
       <button class = "calcBtn" >{{thursday | date: 'd ccc' }}</button>
     </th>
     <td mat-cell *matCellDef="let element">
-      <div class="data-cell" *ngIf="element.data&&day==thursday_date" [ngStyle]="{'background-color':'cornflowerblue'}">{{element.data.t}}. Kcal: {{element.data.k}} Fats: {{element.data.f}} Proteins: {{element.data.p}} Carbohydrates: {{element.data.c}}</div>
+      <div class="data-cell" *ngIf="dataDayOfWeek.date==thursday_date&&element.time==c_time" [ngStyle]="{'background-color':'cornflowerblue'}">{{element.periodic[friday_date-1].meal.t}}</div>
     </td>
   </ng-container>
 
@@ -83,7 +83,7 @@
       <button class ="calcBtn" >{{friday | date: 'd ccc' }}</button>
     </th>
     <td mat-cell *matCellDef="let element">
-      <!--<div class="data-cell" *ngIf="element.data&&day==friday_date" [ngStyle]="{'background-color':'cornflowerblue'}">{{element.data.t}}. Kcal: {{element.data.k}} Fats: {{element.data.f}} Proteins: {{element.data.p}} Carbohydrates: {{element.data.c}}</div>-->
+      <div class="data-cell" *ngIf="dataDayOfWeek.date==friday_date&&element.time==c_time"  [ngStyle]="{'background-color':'cornflowerblue'}">{{element.periodic[friday_date-1].meal.t}}</div>
     </td>
   </ng-container>
 
@@ -94,7 +94,7 @@
       <button class = "calcBtn" >{{saturday | date: 'd ccc' }}</button>
     </th>
     <td mat-cell *matCellDef="let element">
-      <!--<div class="data-cell" *ngIf="element.data&&day==saturday_date" [ngStyle]="{'background-color':'cornflowerblue'}">{{element.data.t}}. Kcal: {{element.data.k}} Fats: {{element.data.f}} Proteins: {{element.data.p}} Carbohydrates: {{element.data.c}}</div>-->
+     <!-- <div class="data-cell" *ngIf="element.data&&datdat==saturday_date" [ngStyle]="{'background-color':'cornflowerblue'}">{{element.data.t}}. Kcal: {{element.data.k}} Fats: {{element.data.f}} Proteins: {{element.data.p}} Carbohydrates: {{element.data.c}}</div>-->
     </td>
   </ng-container>
 
@@ -105,7 +105,7 @@
       <button class = "calcBtn" >{{sunday | date: 'd ccc' }}</button>
     </th>
     <td mat-cell *matCellDef="let element">
-      <!--<div class="data-cell" *ngIf="element.data&&day==sunday_date" [ngStyle]="{'background-color':'cornflowerblue'}">{{element.data.t}}. Kcal: {{element.data.k}} Fats: {{element.data.f}} Proteins: {{element.data.p}} Carbohydrates: {{element.data.c}}</div>-->
+     <!-- <div class="data-cell" *ngIf="element.data&&datdat==sunday_date" [ngStyle]="{'background-color':'cornflowerblue'}">{{element.data.t}}. Kcal: {{element.data.k}} Fats: {{element.data.f}} Proteins: {{element.data.p}} Carbohydrates: {{element.data.c}}</div>-->
     </td>
   </ng-container>
 

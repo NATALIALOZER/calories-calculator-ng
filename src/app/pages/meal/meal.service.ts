@@ -14,8 +14,6 @@ export class MealService {
 
   getFromMealToCalendar(data: any) {
     this.isHtml.next(data);
-    /*this.structure_data[data[0]][data[1]] = data[2]*/
-    console.log(data)
   }
 
   setStorage(key: string, data: any): void {

@@ -41,7 +41,6 @@ export class MealComponent implements OnInit {
       html.previousSibling.style.display = 'none'
       html.nextSibling.style.display = 'none'
       html.parentElement.previousSibling.firstChild.firstChild.innerHTML = 'Back'
-
       let storage: any = {};
       if(this.time.length<5){
         this.time = "0"+this.time
@@ -49,6 +48,7 @@ export class MealComponent implements OnInit {
       let date_id = `${this.day}/${this.month+1}/${this.time}`
       storage['info']  = {t:this.title,k:this.kcal,f:this.fats,p:this.proteins,c:this.carbohydrates}
       storage['time'] = this.time;
+      storage['date'] = this.day
       this.meal.setStorage(date_id, storage)
       /*localStorage.clear()*/
     }
