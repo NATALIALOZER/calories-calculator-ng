@@ -3,12 +3,15 @@
 </div>
 <div class="meal">
   <h2>New meal</h2>
+
+
   <form #data class="meal-form">
     <mat-form-field class="meal-full-width">
       <mat-label>Title</mat-label>
       <input matInput value="Dinner shit" id="title" name="title" [(ngModel)]="title">
     </mat-form-field>
     <table class="meal-full-width" >
+
       <tr>
         <td><mat-form-field class="meal-short-width">
           <mat-label>Kcal</mat-label>
@@ -19,6 +22,7 @@
           <input matInput id="time" name="time" [(ngModel)]="time">
         </mat-form-field></td>
       </tr>
+
     </table>
     <p>
       <mat-form-field class="meal-full-width">

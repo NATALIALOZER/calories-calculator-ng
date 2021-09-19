@@ -1,102 +1,136 @@
-import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
-import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours } from 'date-fns';
 
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ViewChild,
+  TemplateRef,
+} from '@angular/core';
+import {
+  startOfDay,
+  endOfDay,
+  subDays,
+  addDays,
+  endOfMonth,
+  isSameDay,
+  isSameMonth,
+  addHours,
+} from 'date-fns';
+import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CalendarEvent, CalendarEventAction,
-  CalendarEventTimesChangedEvent } from 'angular-calendar';
-import {Subject} from "rxjs";
+import {
+  CalendarEvent,
+  CalendarEventAction,
+  CalendarEventTimesChangedEvent,
+  CalendarView,
+} from 'angular-calendar';
 
 const colors: any = {
   red: {
     primary: '#ad2121',
-    secondary: '#FAE3E3'
+    secondary: '#FAE3E3',
   },
   blue: {
     primary: '#1e90ff',
-    secondary: '#D1E8FF'
+    secondary: '#D1E8FF',
   },
   yellow: {
     primary: '#e3bc08',
-    secondary: '#FDF1BA'
-  }
+    secondary: '#FDF1BA',
+  },
 };
 
-
+interface MyEvent extends CalendarEvent {
+  kcal: string;
+}
 
 @Component({
   selector: 'app-schedule',
-  templateUrl: './schedule.component.html',
-  styleUrls: ['./schedule.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  /*moduleId: __moduleName,*/
+  templateUrl: './schedule.component.html',
+  styleUrls: ['./schedule.component.scss']
 })
-export class ScheduleComponent{
+export class ScheduleComponent {
 
-  @ViewChild('modalContent')
-  modalContent!: TemplateRef<any>;
+  // @ts-ignore
+  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
+  // @ts-ignore
+  @ViewChild('modalAddMeal', { static: true }) modalAddMeal: TemplateRef<any>;
 
-  view: string = 'week';
+  view: CalendarView = CalendarView.Week;
+
+  CalendarView = CalendarView;
 
   viewDate: Date = new Date();
 
-  modalData!: {
+  // @ts-ignore
+  modalData: {
     action: string;
     event: CalendarEvent;
   };
 
   actions: CalendarEventAction[] = [
     {
-      label: '<i class="fa fa-fw fa-pencil"></i>',
+      label: '<i class="fas fa-fw fa-pencil-alt"></i>',
+      a11yLabel: 'Edit',
       onClick: ({ event }: { event: CalendarEvent }): void => {
         this.handleEvent('Edited', event);
-      }
+      },
     },
     {
-      label: '<i class="fa fa-fw fa-times"></i>',
+      label: '<i class="fas fa-fw fa-trash-alt"></i>',
+      a11yLabel: 'Delete',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter(iEvent => iEvent !== event);
+        this.events = this.events.filter((iEvent:any) => iEvent !== event);
         this.handleEvent('Deleted', event);
-      }
-    }
+      },
+    },
   ];
 
   refresh: Subject<any> = new Subject();
 
-  events: CalendarEvent[] = [
+  events: MyEvent[] = [
     /*{
       start: subDays(startOfDay(new Date()), 1),
       end: addDays(new Date(), 1),
       title: 'A 3 day event',
       color: colors.red,
-      actions: this.actions
-    },*/
-    /*{
+      actions: this.actions,
+      allDay: true,
+      resizable: {
+        beforeStart: true,
+        afterEnd: true,
+      },
+      draggable: true,
+    },
+    {
       start: startOfDay(new Date()),
       title: 'An event with no end date',
       color: colors.yellow,
-      actions: this.actions
+      actions: this.actions,
     },
     {
       start: subDays(endOfMonth(new Date()), 3),
       end: addDays(endOfMonth(new Date()), 3),
       title: 'A long event that spans 2 months',
-      color: colors.blue
+      color: colors.blue,
+      allDay: true,
     },
     {
       start: addHours(startOfDay(new Date()), 2),
-      end: new Date(),
+      end: addHours(new Date(), 2),
       title: 'A draggable and resizable event',
       color: colors.yellow,
       actions: this.actions,
       resizable: {
         beforeStart: true,
-        afterEnd: true
+        afterEnd: true,
       },
-      draggable: true
-    }*/
+      draggable: true,
+    },*/
   ];
 
   activeDayIsOpen: boolean = true;
+
 
   constructor(private modal: NgbModal) {}
 
@@ -109,20 +143,27 @@ export class ScheduleComponent{
         this.activeDayIsOpen = false;
       } else {
         this.activeDayIsOpen = true;
-        this.viewDate = date;
       }
+      this.viewDate = date;
     }
   }
 
   eventTimesChanged({
                       event,
                       newStart,
-                      newEnd
+                      newEnd,
                     }: CalendarEventTimesChangedEvent): void {
-    event.start = newStart;
-    event.end = newEnd;
+    this.events = this.events.map((iEvent:any) => {
+      if (iEvent === event) {
+        return {
+          ...event,
+          start: newStart,
+          end: newEnd,
+        };
+      }
+      return iEvent;
+    });
     this.handleEvent('Dropped or resized', event);
-    this.refresh.next();
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
@@ -130,18 +171,64 @@ export class ScheduleComponent{
     this.modal.open(this.modalContent, { size: 'lg' });
   }
 
-  addEvent(): void {
-    this.events.push({
-      title: 'New event',
-      start: startOfDay(new Date()),
-      end: endOfDay(new Date()),
-      color: colors.red,
-      draggable: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      }
-    });
-    this.refresh.next();
+  addMealEvent(action: string, event: CalendarEvent): void {
+    this.modalData = { event, action };
+    this.modal.open(this.modalAddMeal, { size: 'lg' });
+  }
+
+  addEvent(element:any): void {
+    let date = new Date();
+
+
+    if(element.lastChild.previousSibling.tagName!="THEAD"){
+      element.lastChild.previousSibling.style.display ="none"
+    }
+
+    element.style.display = 'table'
+    this.events = [
+      ...this.events,
+      {
+        title: 'New event',
+        start: startOfDay(new Date()),
+        end: endOfDay(date.setTime(date.getTime() + 60 * 60 * 1000)),
+        kcal: 'Nwm of kcal',
+        color: colors.red,
+        draggable: true,
+        resizable: {
+          beforeStart: true,
+          afterEnd: true,
+        },
+      },
+    ];
+
+
+
+  }
+
+  deleteEvent(eventToDelete: CalendarEvent) {
+    this.events = this.events.filter((event) => event !== eventToDelete);
+  }
+  /*hideEvent(element: any) {
+
+    let title = element.firstChild
+    let titleInput = title.nextSibling
+    if(titleInput.nextSibling&&titleInput.nextSibling.tagName=='TBODY'){
+      console.log("yeah!")
+      titleInput.nextSibling.style.display = 'none'
+    }
+    /!*element.firstChild.style.display = 'none'*!/
+  }*/
+
+  setView(view: CalendarView) {
+    this.view = view;
+  }
+
+  closeOpenMonthViewDay() {
+    this.activeDayIsOpen = false;
+  }
+
+
+  addMeal(eventToAdd:any) {
+    this.addMealEvent('Add new meal', eventToAdd)
   }
 }
