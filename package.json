@@ -22,6 +22,8 @@
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
+    "@types/gapi.auth2": "0.0.55",
+    "@types/gapi.client.gmail": "^1.0.3",
     "angular-calendar": "^0.28.28",
     "angular-draggable-droppable": "^5.0.0",
     "angularx-flatpickr": "^6.6.0",

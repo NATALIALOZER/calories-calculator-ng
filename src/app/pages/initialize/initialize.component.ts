@@ -1,15 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, TemplateRef, ViewChild} from '@angular/core';
+import {FormControl} from "@angular/forms";
+import {CalendarEvent} from "angular-calendar";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-initialize',
   templateUrl: './initialize.component.html',
   styleUrls: ['./initialize.component.scss']
 })
-export class InitializeComponent implements OnInit {
+export class InitializeComponent {
+  // @ts-ignore
+  @ViewChild('modalLogIn', { static: true }) modalLogIn: TemplateRef<any>;
 
-  constructor() { }
+  name = new FormControl('');
 
-  ngOnInit(): void {
+  modalData: any
+
+  constructor(private modal: NgbModal) {}
+
+  addMealEvent(action: string, event: CalendarEvent): void {
+    this.modalData = { event, action };
+    this.modal.open(this.modalLogIn, { size: 'lg' });
+  }
+
+  openModalLogIn(eventToAdd:any) {
+    this.addMealEvent('Add new meal', eventToAdd)
   }
 
 }

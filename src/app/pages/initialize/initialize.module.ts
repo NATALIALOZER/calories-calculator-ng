@@ -4,7 +4,8 @@ import { InitializeComponent } from './initialize.component';
 import {InitializeRoutingModule} from "./initialize-routing.module";
 import {MatButtonModule} from "@angular/material/button";
 import {MatInputModule} from "@angular/material/input";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {LoginModule} from "../../shared/component/login/login.module";
 
 
 
@@ -17,7 +18,9 @@ import {FormsModule} from "@angular/forms";
     InitializeRoutingModule,
     MatButtonModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    LoginModule
   ]
 })
 export class InitializeModule { }
