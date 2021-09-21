@@ -61,7 +61,7 @@ export class ScheduleComponent {
   CalendarView = CalendarView;
 
   viewDate: Date = new Date();
-  yeah=false
+
   // @ts-ignore
   modalData: {
     action: string;
@@ -173,36 +173,32 @@ export class ScheduleComponent {
 
   addMealEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
-    this.modal.open(this.modalAddMeal, { size: 'lg' });
+/*    if(document.body.style.overflow != 'hidden'){
+      document.body.style.overflow = hidden
+    }*/
+    this.modal.open(this.modalAddMeal, { size: 'lg'});
   }
 
   addEvent(element:any): void {
-
-    let date = new Date();
-
-
     element.style.display = 'table'
-    console.log(element.childNodes)
-
-    element.childNodes.forEach((el:any)=>{
+    /*element.childNodes.forEach((el:any)=>{
       if(el.tagName=="TBODY"){
         el.style.display="none"
       }
     })
-
-
     if(element.lastChild.previousSibling.tagName!="THEAD"){
       element.lastChild.previousSibling.style.display ="none"
-    }
-
+    }*/
+    let date = new Date();
     this.events = [
       ...this.events,
       {
         title: 'New event',
         start: startOfDay(new Date()),
-        end: endOfDay(date.setTime(date.getTime() + 60 * 60 * 1000)),
-        kcal: 'Nwm of kcal',
-        color: colors.red,
+        /*end: endOfDay(new Date()),*/
+        /*date.setTime(date.getTime() + 60 * 60 * 1000)*/
+        kcal: '1230',
+        color: colors.blue,
         draggable: true,
         resizable: {
           beforeStart: true,
@@ -216,16 +212,6 @@ export class ScheduleComponent {
   deleteEvent(eventToDelete: CalendarEvent) {
     this.events = this.events.filter((event) => event !== eventToDelete);
   }
-  /*hideEvent(element: any) {
-
-    let title = element.firstChild
-    let titleInput = title.nextSibling
-    if(titleInput.nextSibling&&titleInput.nextSibling.tagName=='TBODY'){
-      console.log("yeah!")
-      titleInput.nextSibling.style.display = 'none'
-    }
-    /!*element.firstChild.style.display = 'none'*!/
-  }*/
 
   setView(view: CalendarView) {
     this.view = view;
@@ -234,7 +220,6 @@ export class ScheduleComponent {
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
   }
-
 
   addMeal(eventToAdd:any) {
     this.addMealEvent('Add new meal', eventToAdd)

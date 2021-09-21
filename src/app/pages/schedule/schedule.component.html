@@ -1,25 +1,31 @@
 <div class="row">
-  <div class="col-md-12 text-center">
+  <div class="col-md-12 ps-3">
+    <div
+      [ngStyle]="{'textAlign': view === CalendarView.Month ? 'center' : 'start'}">
+      {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}
+    </div>
     <div class="btn-group">
       <div
         class="btn btn-primary"
-        (click)="setView(CalendarView.Week)"
-        [class.active]="view === CalendarView.Week"
-      >
-        Week
-      </div>
-      <div
-        class="btn btn-primary"
         (click)="setView(CalendarView.Month)"
+        [ngStyle]="{'borderBottomRightRadius': view === CalendarView.Month ? 0 : '5px','borderTopRightRadius': view === CalendarView.Month ? 0 : '5px'}"
         [class.active]="view === CalendarView.Month"
       >
         Month
       </div>
-
+      <div
+        class="btn btn-outline-primary"
+        (click)="setView(CalendarView.Week)"
+        [ngStyle]="{'display': view === CalendarView.Month ? 'block' : 'none'}"
+        [class.active]="view === CalendarView.Week"
+      >
+        OK
+      </div>
     </div>
     <div class="btn-group">
       <div
         class="btn"
+        [ngStyle]="{'color': view === CalendarView.Month ? 'blue' : 'black'}"
         mwlCalendarPreviousView
         [view]="view"
         [(viewDate)]="viewDate"
@@ -29,6 +35,7 @@
       </div>
       <div
         class="btn"
+        [ngStyle]="{'color': view === CalendarView.Month ? 'blue' : 'black'}"
         mwlCalendarToday
         [(viewDate)]="viewDate"
       >
@@ -36,6 +43,7 @@
       </div>
       <div
         class="btn"
+        [ngStyle]="{'color': view === CalendarView.Month ? 'blue' : 'black'}"
         mwlCalendarNextView
         [view]="view"
         [(viewDate)]="viewDate"
@@ -86,17 +94,16 @@
     (eventTimesChanged)="eventTimesChanged($event)"
   >
   </mwl-calendar-month-view>-->
-  <div class="title_own_class">
-    {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}
-  </div>
+
   <mwl-calendar-week-view
     *ngSwitchCase="CalendarView.Week"
     [viewDate]="viewDate"
     [events]="events"
     [refresh]="refresh"
     (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventTimesChanged)="eventTimesChanged($event)"
   >
-    <!--  (eventTimesChanged)="eventTimesChanged($event)"-->
+
   </mwl-calendar-week-view>
   <mwl-calendar-day-view
     *ngSwitchCase="CalendarView.Day"
@@ -125,11 +132,7 @@
 </h3>-->
 
 
-
-
-
-
-<ng-template #modalContent let-close="close">
+<ng-template #modalContent let-close="close" >
   <div class="modal-header">
     <h5 class="modal-title">Event action occurred</h5>
     <button type="button" class="close" (click)="close()">
@@ -153,31 +156,26 @@
   </div>
 </ng-template>
 
+
 <ng-template #modalAddMeal let-close="close">
   <div class="modal-header">
-    <h5 class="modal-title">New meal</h5>
-    <button type="button" class="close" (click)="close()">
-      <span aria-hidden="true">&times;</span>
+    <button type="button" class="close close_btn" (click)="close()">
+      <span aria-hidden="true">Cancel</span>
     </button>
+    <h1 class="modal-title">New meal</h1>
   </div>
   <div class="modal-body">
-
-
     <div class="table-responsive" >
       <table class="table" #tableElement [ngStyle]="{'display':'none'}">
         <thead >
         <tr>
-          <th>New meal</th>
-          <!--<th>Time</th>
-          &lt;!&ndash;<th>Ends at</th>&ndash;&gt;
-          <th>Remove</th>-->
+          <th>Text your meal..</th>
         </tr>
         </thead>
-
         <tbody *ngFor="let event of events; let i = index" >
         <tr >
           <td>
-            <mat-label>Kcal</mat-label>
+            <mat-label>Title</mat-label>
             <input
               type="text"
               class="form-control"
@@ -203,6 +201,7 @@
         </tr>
           <tr>
             <td>
+              <mat-label>Time</mat-label>
               <input
                 class="form-control"
                 type="text"
@@ -216,10 +215,13 @@
                 altFormat="F j, Y H:i"
                 placeholder="Not set"
               />
+
+
             </td>
           </tr>
         <tr>
           <td>
+            <mat-label>Kcal</mat-label>
             <input
               type="text"
               class="form-control"
