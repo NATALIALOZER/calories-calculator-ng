@@ -61,7 +61,7 @@ export class ScheduleComponent {
   CalendarView = CalendarView;
 
   viewDate: Date = new Date();
-
+  yeah=false
   // @ts-ignore
   modalData: {
     action: string;
@@ -177,14 +177,24 @@ export class ScheduleComponent {
   }
 
   addEvent(element:any): void {
+
     let date = new Date();
+
+
+    element.style.display = 'table'
+    console.log(element.childNodes)
+
+    element.childNodes.forEach((el:any)=>{
+      if(el.tagName=="TBODY"){
+        el.style.display="none"
+      }
+    })
 
 
     if(element.lastChild.previousSibling.tagName!="THEAD"){
       element.lastChild.previousSibling.style.display ="none"
     }
 
-    element.style.display = 'table'
     this.events = [
       ...this.events,
       {
@@ -200,9 +210,7 @@ export class ScheduleComponent {
         },
       },
     ];
-
-
-
+    console.log(this.events)
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {
