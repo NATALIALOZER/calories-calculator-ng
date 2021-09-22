@@ -1,4 +1,3 @@
-
 import {
   Component,
   ChangeDetectionStrategy,
@@ -7,13 +6,8 @@ import {
 } from '@angular/core';
 import {
   startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
   isSameDay,
-  isSameMonth,
-  addHours,
+  isSameMonth
 } from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -39,6 +33,7 @@ const colors: any = {
   },
 };
 
+
 interface MyEvent extends CalendarEvent {
   kcal: number;
 }
@@ -50,18 +45,14 @@ interface MyEvent extends CalendarEvent {
   styleUrls: ['./schedule.component.scss']
 })
 export class ScheduleComponent {
-
   // @ts-ignore
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
   // @ts-ignore
   @ViewChild('modalAddMeal', { static: true }) modalAddMeal: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Week;
-
   CalendarView = CalendarView;
-
   viewDate: Date = new Date();
-
   // @ts-ignore
   modalData: {
     action: string;
@@ -85,16 +76,14 @@ export class ScheduleComponent {
       },
     },
   ];
-
   refresh: Subject<any> = new Subject();
-
   events: MyEvent[] = [
-    {
+    /*{
       start: startOfDay(new Date()),
       title: 'Chicken',
       kcal: 340,
       color: colors.blue,
-      actions: this.actions}
+      actions: this.actions}*/
       /*resizable: {
         beforeStart: true,
         afterEnd: true,
@@ -129,10 +118,8 @@ export class ScheduleComponent {
   ];
 
   activeDayIsOpen: boolean = true;
-
   numbers = new Map();
   currentKcal!: number;
-
 
   constructor(private modal: NgbModal) {}
 
@@ -150,24 +137,6 @@ export class ScheduleComponent {
     }
   }
 
-  eventTimesChanged({
-                      event,
-                      newStart,
-                      newEnd,
-                    }: CalendarEventTimesChangedEvent): void {
-    this.events = this.events.map((iEvent:any) => {
-      if (iEvent === event) {
-        return {
-          ...event,
-          start: newStart,
-          end: newEnd,
-        };
-      }
-      return iEvent;
-    });
-    this.handleEvent('Dropped or resized', event);
-  }
-
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
     this.modal.open(this.modalContent, { size: 'lg' });
@@ -175,40 +144,23 @@ export class ScheduleComponent {
 
   addMealEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
-/*    if(document.body.style.overflow != 'hidden'){
-      document.body.style.overflow = hidden
-    }*/
     this.modal.open(this.modalAddMeal, { size: 'lg'});
+    this.addEvent()
+
   }
 
-  addEvent(element:any): void {
-    element.style.display = 'table'
-    element.childNodes.forEach((el:any)=>{
-      if(el.tagName=="TBODY"){
-        el.style.display="none"
-      }
-    })
-    if(element.lastChild.previousSibling.tagName!="THEAD"){
-      element.lastChild.previousSibling.style.display ="none"
-    }
-    let date = new Date();
+  addEvent(): void {
     this.events = [
       ...this.events,
       {
-        title: 'New event',
+        title: 'New meal',
         start: startOfDay(new Date()),
-        /*end: endOfDay(new Date()),*/
-        /*date.setTime(date.getTime() + 60 * 60 * 1000)*/
-        kcal: 1230,
-        color: colors.blue,
-/*        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true,
-        },*/
+        kcal: 500,
+        color: colors.blue
       },
     ];
   }
+
 
   deleteEvent(eventToDelete: CalendarEvent) {
     this.events = this.events.filter((event) => event !== eventToDelete);
@@ -244,8 +196,6 @@ export class ScheduleComponent {
     }
     this.numbers.set(fKey,fKcal);
     let current_date = this.numbers.get(this.viewDate.toLocaleDateString())
-    console.log(this.numbers)
-    console.log(current_date)
     if(current_date){
       this.currentKcal = current_date
       return true
@@ -253,5 +203,9 @@ export class ScheduleComponent {
       this.currentKcal = 0
       return false
     }
+  }
+
+  openDayInfo(clicked: string, $event: MouseEvent) {
+
   }
 }

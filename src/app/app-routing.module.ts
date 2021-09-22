@@ -8,9 +8,6 @@ const routes: Routes = [{
     path: '', redirectTo: 'initialize', pathMatch: 'full'
   },
   {
-    path: 'meal', loadChildren: () => import('./pages/meal/meal.module').then(m => m.MealModule)
-  },
-  {
     path: 'initialize', loadChildren: () => import('./pages/initialize/initialize.module').then(m => m.InitializeModule)
   },
 ];

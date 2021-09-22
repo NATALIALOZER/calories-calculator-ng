@@ -78,23 +78,12 @@
 
 
 <div [ngSwitch]="view" class="table_own_class">
-  <!--<mwl-calendar-month-view
-    *ngSwitchCase="CalendarView.Month"
-    [viewDate]="viewDate"
-    [events]="events"
-    [refresh]="refresh"
-    [activeDayIsOpen]="activeDayIsOpen"
-    (dayClicked)="dayClicked($event.day)"
-    (eventClicked)="handleEvent('Clicked', $event.event)"
-    (eventTimesChanged)="eventTimesChanged($event)"
-  ></mwl-calendar-month-view>-->
   <mwl-calendar-week-view
     *ngSwitchCase="CalendarView.Week"
     [viewDate]="viewDate"
     [events]="events"
     [refresh]="refresh"
     (eventClicked)="handleEvent('Clicked', $event.event)"
-    (eventTimesChanged)="eventTimesChanged($event)"
   ></mwl-calendar-week-view>
   <mwl-calendar-day-view
     *ngSwitchCase="CalendarView.Day"
@@ -142,7 +131,7 @@
   </div>
   <div class="modal-body">
     <div class="table-responsive" >
-      <table class="table" #tableElement [ngStyle]="{'display':'none'}">
+      <table class="table" #tableElement>
         <thead >
         <tr>
           <th>Text your meal..</th>
@@ -159,21 +148,6 @@
               (keyup)="refresh.next()"
             />
           </td>
-          <!--<td>
-            <input
-              class="form-control"
-              type="text"
-              mwlFlatpickr
-              [(ngModel)]="event.end"
-              (ngModelChange)="refresh.next()"
-              [altInput]="true"
-              [convertModelValue]="true"
-              [enableTime]="true"
-              dateFormat="Y-m-dTH:i"
-              altFormat="F j, Y H:i"
-              placeholder="Not set"
-            />
-          </td>-->
         </tr>
           <tr>
             <td>
@@ -191,8 +165,6 @@
                 altFormat="F j, Y H:i"
                 placeholder="Not set"
               />
-
-
             </td>
           </tr>
         <tr>
@@ -212,22 +184,12 @@
               Delete
             </button>
           </td>
-          <!--<td>
-            <button class="btn btn-primary" (click)="hideEvent(tableElement)">
-              OK
-            </button>
-          </td>-->
         </tr>
       </table>
     </div>
   </div>
-  <!--<div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="close()">
-      OK
-    </button>
-  </div>-->
   <div class="modal-footer">
-    <button type="button" class="btn btn-primary" (click)="addEvent(tableElement)">
+    <button type="button" class="btn btn-primary" (click)="openDayInfo('Clicked', $event)">
       Add new
     </button>
     <div class="clearfix"></div>
