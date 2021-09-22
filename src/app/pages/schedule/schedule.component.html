@@ -1,14 +1,30 @@
 <div class="row">
   <div class="col-md-12 ps-3">
-    <div
-      [ngStyle]="{'textAlign': view === CalendarView.Month ? 'center' : 'start'}">
+    <div>
       {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}
     </div>
     <div class="btn-group">
       <div
         class="btn btn-primary"
+        (click)="setView(CalendarView.Day)"
+        [class.active]="view === CalendarView.Day"
+        [ngStyle]="{'display': view === CalendarView.Month ?  'none' :'block'}"
+      >
+        Day
+      </div>
+      <div
+        class="btn btn-outline-primary"
+        (click)="setView(CalendarView.Week)"
+        [ngStyle]="{'display': view === CalendarView.Day ? 'block' : 'none','border-bottom-right-radius': '5px','border-top-right-radius': '5px'}"
+
+        [class.active]="view === CalendarView.Week"
+      >
+        Back
+      </div>
+      <div
+        class="btn btn-primary"
         (click)="setView(CalendarView.Month)"
-        [ngStyle]="{'borderBottomRightRadius': view === CalendarView.Month ? 0 : '5px','borderTopRightRadius': view === CalendarView.Month ? 0 : '5px'}"
+        [ngStyle]="{'borderBottomRightRadius': view === CalendarView.Month ? 0 : '5px','borderTopRightRadius': view === CalendarView.Month ? 0 : '5px','display': view === CalendarView.Day ?  'none' :'block','borderBottomLeftRadius': view === CalendarView.Month ? '5px' : 0,'borderTopLeftRadius': view === CalendarView.Month ? '5px' : 0}"
         [class.active]="view === CalendarView.Month"
       >
         Month
@@ -53,34 +69,13 @@
       </div>
     </div>
   </div>
-
-
- <!-- <div class="col-md-4 text-start">
-    <div class="btn-group">-->
-      <!--<div
-        class="btn btn-primary"
-        (click)="setView(CalendarView.Month)"
-        [class.active]="view === CalendarView.Month"
-      >
-        Month
-      </div>-->
-      <!--<div
-        class="btn btn-primary"
-        (click)="setView(CalendarView.Week)"
-        [class.active]="view === CalendarView.Week"
-      >
-        Week
-      </div>-->
-      <!--<div
-        class="btn btn-primary"
-        (click)="setView(CalendarView.Day)"
-        [class.active]="view === CalendarView.Day"
-      >
-        Day
-      </div>-->
-<!--    </div>
-  </div>-->
+  <div class="col-md-12 ps-3">
+    <div class="col-md-12 ps-3">
+      <div *ngIf="this.calculatorKcal()">{{currentKcal}}</div>
+    </div>
+  </div>
 </div>
+
 
 <div [ngSwitch]="view" class="table_own_class">
   <!--<mwl-calendar-month-view
@@ -92,9 +87,7 @@
     (dayClicked)="dayClicked($event.day)"
     (eventClicked)="handleEvent('Clicked', $event.event)"
     (eventTimesChanged)="eventTimesChanged($event)"
-  >
-  </mwl-calendar-month-view>-->
-
+  ></mwl-calendar-month-view>-->
   <mwl-calendar-week-view
     *ngSwitchCase="CalendarView.Week"
     [viewDate]="viewDate"
@@ -102,35 +95,19 @@
     [refresh]="refresh"
     (eventClicked)="handleEvent('Clicked', $event.event)"
     (eventTimesChanged)="eventTimesChanged($event)"
-  >
-
-  </mwl-calendar-week-view>
+  ></mwl-calendar-week-view>
   <mwl-calendar-day-view
     *ngSwitchCase="CalendarView.Day"
     [viewDate]="viewDate"
     [events]="events"
     [refresh]="refresh"
     (eventClicked)="handleEvent('Clicked', $event.event)"
-
-  >
-  <!--  (eventTimesChanged)="eventTimesChanged($event)"-->
-  </mwl-calendar-day-view>
+  ></mwl-calendar-day-view>
 </div>
-
-<!-- Everything you see below is just for the demo, you don't need to include it in your app -->
 
 <button class="btn btn-primary add_own_button" (click)="addMeal($event)">
   +
 </button>
-
-<!--<h3>
-  Edit events
-  <button class="btn btn-primary float-right" (click)="addEvent()">
-    Add new
-  </button>
-  <div class="clearfix"></div>
-</h3>-->
-
 
 <ng-template #modalContent let-close="close" >
   <div class="modal-header">
@@ -155,7 +132,6 @@
     </button>
   </div>
 </ng-template>
-
 
 <ng-template #modalAddMeal let-close="close">
   <div class="modal-header">

@@ -31,7 +31,7 @@ const colors: any = {
   },
   blue: {
     primary: '#1e90ff',
-    secondary: '#D1E8FF',
+    secondary: '#1e90ff',
   },
   yellow: {
     primary: '#e3bc08',
@@ -40,7 +40,7 @@ const colors: any = {
 };
 
 interface MyEvent extends CalendarEvent {
-  kcal: string;
+  kcal: number;
 }
 
 @Component({
@@ -89,14 +89,13 @@ export class ScheduleComponent {
   refresh: Subject<any> = new Subject();
 
   events: MyEvent[] = [
-    /*{
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      color: colors.red,
-      actions: this.actions,
-      allDay: true,
-      resizable: {
+    {
+      start: startOfDay(new Date()),
+      title: 'Chicken',
+      kcal: 340,
+      color: colors.blue,
+      actions: this.actions}
+      /*resizable: {
         beforeStart: true,
         afterEnd: true,
       },
@@ -105,16 +104,16 @@ export class ScheduleComponent {
     {
       start: startOfDay(new Date()),
       title: 'An event with no end date',
-      color: colors.yellow,
+      kcal: 340,
+      color: colors.blue,
       actions: this.actions,
     },
     {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
+      start: startOfDay(new Date()),
       title: 'A long event that spans 2 months',
+      kcal: 340,
       color: colors.blue,
-      allDay: true,
-    },
+    }
     {
       start: addHours(startOfDay(new Date()), 2),
       end: addHours(new Date(), 2),
@@ -130,6 +129,9 @@ export class ScheduleComponent {
   ];
 
   activeDayIsOpen: boolean = true;
+
+  numbers = new Map();
+  currentKcal!: number;
 
 
   constructor(private modal: NgbModal) {}
@@ -181,14 +183,14 @@ export class ScheduleComponent {
 
   addEvent(element:any): void {
     element.style.display = 'table'
-    /*element.childNodes.forEach((el:any)=>{
+    element.childNodes.forEach((el:any)=>{
       if(el.tagName=="TBODY"){
         el.style.display="none"
       }
     })
     if(element.lastChild.previousSibling.tagName!="THEAD"){
       element.lastChild.previousSibling.style.display ="none"
-    }*/
+    }
     let date = new Date();
     this.events = [
       ...this.events,
@@ -197,16 +199,15 @@ export class ScheduleComponent {
         start: startOfDay(new Date()),
         /*end: endOfDay(new Date()),*/
         /*date.setTime(date.getTime() + 60 * 60 * 1000)*/
-        kcal: '1230',
+        kcal: 1230,
         color: colors.blue,
-        draggable: true,
+/*        draggable: true,
         resizable: {
           beforeStart: true,
           afterEnd: true,
-        },
+        },*/
       },
     ];
-    console.log(this.events)
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {
@@ -223,5 +224,34 @@ export class ScheduleComponent {
 
   addMeal(eventToAdd:any) {
     this.addMealEvent('Add new meal', eventToAdd)
+  }
+
+  calculatorKcal(): boolean{
+    let arr: Date[] = []
+    this.events.forEach((evnt)=> {
+      arr.push(evnt.start)
+    })
+    let fKcal = 0
+    let fKey: any
+    for ( let value in arr){
+      let findObj = { start: arr[value] };
+      this.events.forEach(function(item) {
+        if (findObj.start == item.start ){
+          fKcal = item.kcal + fKcal
+          fKey = arr[value].toLocaleDateString()
+        }
+      });
+    }
+    this.numbers.set(fKey,fKcal);
+    let current_date = this.numbers.get(this.viewDate.toLocaleDateString())
+    console.log(this.numbers)
+    console.log(current_date)
+    if(current_date){
+      this.currentKcal = current_date
+      return true
+    } else {
+      this.currentKcal = 0
+      return false
+    }
   }
 }
