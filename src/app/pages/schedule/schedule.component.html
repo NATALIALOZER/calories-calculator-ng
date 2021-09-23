@@ -131,16 +131,13 @@
   </div>
   <div class="modal-body">
     <div class="table-responsive" >
-      <table class="table" #tableElement>
+      <table class="table" *ngFor="let event of events; let i = index" >
         <thead >
-        <tr>
-          <th>Text your meal..</th>
-        </tr>
         </thead>
-        <tbody *ngFor="let event of events; let i = index" >
+        <tbody *ngIf="event.display==true">
         <tr >
           <td>
-            <mat-label>Title</mat-label>
+            <mat-label >Title</mat-label>
             <input
               type="text"
               class="form-control"
@@ -183,15 +180,15 @@
             <button class="btn btn-danger" (click)="deleteEvent(event)">
               Delete
             </button>
+            <button type="button" class="btn btn-primary" (click)="openDayInfo(event)">
+              Add new
+            </button>
           </td>
         </tr>
       </table>
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-primary" (click)="openDayInfo('Clicked', $event)">
-      Add new
-    </button>
     <div class="clearfix"></div>
   </div>
 </ng-template>

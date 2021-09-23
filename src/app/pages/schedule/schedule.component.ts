@@ -35,6 +35,7 @@ const colors: any = {
 
 
 interface MyEvent extends CalendarEvent {
+  display: boolean;
   kcal: number;
 }
 
@@ -156,7 +157,8 @@ export class ScheduleComponent {
         title: 'New meal',
         start: startOfDay(new Date()),
         kcal: 500,
-        color: colors.blue
+        color: colors.blue,
+        display: true
       },
     ];
   }
@@ -205,7 +207,11 @@ export class ScheduleComponent {
     }
   }
 
-  openDayInfo(clicked: string, $event: MouseEvent) {
-
+  openDayInfo(eventToDisplay: MyEvent) {
+    let arr = this.events.filter((event) => event !== eventToDisplay)
+    let ev = this.events.filter((event) => event === eventToDisplay)[0]
+    // @ts-ignore
+    this.events = [...arr,ev]
+    this.handleEvent('Added meal', eventToDisplay)
   }
 }
