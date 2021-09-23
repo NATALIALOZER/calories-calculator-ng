@@ -1,11 +1,9 @@
 import { Component} from '@angular/core';
 
 class ImageSnippet {
-  pending: boolean = false;
-  status: string = 'init';
-
+  public pending: boolean = false;
+  public status: string = 'init';
   constructor(public src: string, public file: File) {}
-
 }
 
 @Component({
@@ -13,25 +11,15 @@ class ImageSnippet {
   templateUrl: './image-upload.component.html',
   styleUrls: ['./image-upload.component.scss']
 })
-export class ImageUploadComponent{
-
-  // @ts-ignore
-  selectedFile: ImageSnippet;
-  /*constructor(private imageService: ImageService){}*/
-
-  processFile(imageInput:any) {
-    console.log(this.selectedFile)
-
-    const file: File = imageInput.files[0]
-
+export class ImageUploadComponent {
+  public selectedFile!: ImageSnippet;
+  public processFile(imageInput: any): void {
+    const file: File = imageInput.files[0];
     const reader = new FileReader();
-
     reader.addEventListener('load', (event: any) => {
       this.selectedFile = new ImageSnippet(event.target.result, file);
       this.selectedFile.pending = true;
-
     });
-
     reader.readAsDataURL(file);
   }
 }

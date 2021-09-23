@@ -1,30 +1,31 @@
-import {Component, TemplateRef, ViewChild} from '@angular/core';
-import {FormControl} from "@angular/forms";
-import {CalendarEvent} from "angular-calendar";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {GoogleSignInService} from '../../shared/services/google-sign-in.service';
 
 @Component({
   selector: 'app-initialize',
   templateUrl: './initialize.component.html',
   styleUrls: ['./initialize.component.scss']
 })
-export class InitializeComponent {
-  // @ts-ignore
-  @ViewChild('modalLogIn', { static: true }) modalLogIn: TemplateRef<any>;
+export class InitializeComponent implements OnInit {
+  public title = 'google-signin';
+  public user!: gapi.auth2.GoogleUser;
+  constructor(
+    private signInService: GoogleSignInService,
+    private ref: ChangeDetectorRef
+  ) { }
 
-  name = new FormControl('');
-
-  modalData: any
-
-  constructor(private modal: NgbModal) {}
-
-  addMealEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-    this.modal.open(this.modalLogIn, { size: 'lg' });
+  public ngOnInit(): void {
+    this.signInService.observable().subscribe(user => {
+      this.user = user;
+      this.ref.detectChanges();
+    });
   }
 
-  openModalLogIn(eventToAdd:any) {
-    this.addMealEvent('Add new meal', eventToAdd)
+  public signIn(): void {
+    this.signInService.signin();
   }
 
+  public signOut(): void {
+    this.signInService.signOut();
+  }
 }

@@ -82,14 +82,14 @@
     *ngSwitchCase="CalendarView.Week"
     [viewDate]="viewDate"
     [events]="events"
-    [refresh]="refresh"
+    [refresh]="rs.refresh"
     (eventClicked)="handleEvent('Clicked', $event.event)"
   ></mwl-calendar-week-view>
   <mwl-calendar-day-view
     *ngSwitchCase="CalendarView.Day"
     [viewDate]="viewDate"
     [events]="events"
-    [refresh]="refresh"
+    [refresh]="rs.refresh"
     (eventClicked)="handleEvent('Clicked', $event.event)"
   ></mwl-calendar-day-view>
 </div>
@@ -142,7 +142,7 @@
               type="text"
               class="form-control"
               [(ngModel)]="event.title"
-              (keyup)="refresh.next()"
+              (keyup)="rs.refresh.next()"
             />
           </td>
         </tr>
@@ -154,7 +154,7 @@
                 type="text"
                 mwlFlatpickr
                 [(ngModel)]="event.start"
-                (ngModelChange)="refresh.next()"
+                (ngModelChange)="rs.refresh.next()"
                 [altInput]="true"
                 [convertModelValue]="true"
                 [enableTime]="true"
@@ -171,7 +171,7 @@
               type="text"
               class="form-control"
               [(ngModel)]="event.kcal"
-              (keyup)="refresh.next()"
+              (keyup)="rs.refresh.next()"
             />
           </td>
         </tr>
@@ -180,7 +180,7 @@
             <button class="btn btn-danger" (click)="deleteEvent(event)">
               Delete
             </button>
-            <button type="button" class="btn btn-primary" (click)="openDayInfo(event)">
+            <button type="button" class="btn btn-primary" (click)="addMealInfo(event)">
               Add new
             </button>
           </td>

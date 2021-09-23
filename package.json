@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "lint": "tslint --project tsconfig.json"
   },
   "private": true,
   "dependencies": {
@@ -28,6 +29,7 @@
     "angular-draggable-droppable": "^5.0.0",
     "angularx-flatpickr": "^6.6.0",
     "calendar-utils": "^0.8.5",
+    "codelyzer": "^6.0.2",
     "date-fns": "^2.24.0",
     "flatpickr": "^4.6.9",
     "moment": "^2.29.1",
@@ -48,6 +50,7 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
-    "typescript": "~4.3.5"
+    "typescript": "~4.3.5",
+    "tslint": "^5.12.0"
   }
 }
