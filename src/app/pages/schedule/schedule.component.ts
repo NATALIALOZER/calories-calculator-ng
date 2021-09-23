@@ -121,6 +121,7 @@ export class ScheduleComponent {
   activeDayIsOpen: boolean = true;
   numbers = new Map();
   currentKcal!: number;
+  private newEvent!: { kcal: number; color: { secondary: string; primary: string }; display: boolean; start: Date; title: string };
 
   constructor(private modal: NgbModal) {}
 
@@ -151,15 +152,16 @@ export class ScheduleComponent {
   }
 
   addEvent(): void {
+    this.newEvent = {
+      title: 'New meal',
+        start: startOfDay(new Date()),
+      kcal: 500,
+      color: colors.blue,
+      display: true
+    }
     this.events = [
       ...this.events,
-      {
-        title: 'New meal',
-        start: startOfDay(new Date()),
-        kcal: 500,
-        color: colors.blue,
-        display: true
-      },
+      this.newEvent,
     ];
   }
 
@@ -209,9 +211,8 @@ export class ScheduleComponent {
 
   openDayInfo(eventToDisplay: MyEvent) {
     let arr = this.events.filter((event) => event !== eventToDisplay)
-    let ev = this.events.filter((event) => event === eventToDisplay)[0]
-    // @ts-ignore
-    this.events = [...arr,ev]
-    this.handleEvent('Added meal', eventToDisplay)
+    this.newEvent.display=false
+    this.events = [...arr,this.newEvent]
+    this.handleEvent('Clicked', eventToDisplay)
   }
 }
