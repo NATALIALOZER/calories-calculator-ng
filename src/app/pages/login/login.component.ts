@@ -21,10 +21,6 @@ export class LoginComponent implements OnInit {
   }
 
   public signIn(): void {
-    this.signInService.signin();
-  }
-
-  public signOut(): void {
-    this.signInService.signOut();
+    this.signInService.signIn();
   }
 }
