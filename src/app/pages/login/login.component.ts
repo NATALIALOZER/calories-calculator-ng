@@ -2,12 +2,11 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {GoogleSignInService} from '../../shared/services/google-sign-in.service';
 
 @Component({
-  selector: 'app-initialize',
-  templateUrl: './initialize.component.html',
-  styleUrls: ['./initialize.component.scss']
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
 })
-export class InitializeComponent implements OnInit {
-  public title = 'google-signin';
+export class LoginComponent implements OnInit {
   public user!: gapi.auth2.GoogleUser;
   constructor(
     private signInService: GoogleSignInService,

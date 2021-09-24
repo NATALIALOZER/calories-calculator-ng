@@ -27,10 +27,8 @@ interface IEvent extends CalendarEvent {
   styleUrls: ['./schedule.component.scss']
 })
 export class ScheduleComponent {
-  // @ts-ignore
-  @ViewChild('modalContent', { static: true }) public modalContent: TemplateRef<any>;
-  // @ts-ignore
-  @ViewChild('modalAddMeal', { static: true }) public modalAddMeal: TemplateRef<any>;
+  @ViewChild('modalContent', { static: true }) public modalContent!: TemplateRef<any>;
+  @ViewChild('modalAddMeal', { static: true }) public modalAddMeal!: TemplateRef<any>;
 
   public view: CalendarView = CalendarView.Week;
   public CalendarView = CalendarView;
@@ -39,8 +37,6 @@ export class ScheduleComponent {
     action: string;
     event: CalendarEvent;
   };
-
-
   public events: IEvent[] = [
     /*{
       start: startOfDay(new Date()),
@@ -83,6 +79,7 @@ export class ScheduleComponent {
   public activeDayIsOpen: boolean = true;
   public numbers: Map<string, number> = new Map();
   public currentKcal: number = 0;
+
   private newEvent!: { kcal: number; display: boolean; start: Date; title: string };
 
   constructor(
