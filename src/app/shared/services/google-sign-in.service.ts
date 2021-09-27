@@ -15,7 +15,8 @@ export class GoogleSignInService {
     private router: Router
   ) {
     gapi.load('auth2', () => {
-      this.auth2 = gapi.auth2.init({
+      this.auth2 = gapi.auth2
+        .init({
         client_id: '980114334229-pn80tdgibmf1rsffin5veptn4d08d1pq.apps.googleusercontent.com'
       });
     });
@@ -32,7 +33,6 @@ export class GoogleSignInService {
         });
       }).catch(err => err);
   }
-
 
   public observable(): Observable<gapi.auth2.GoogleUser> {
     return this.subject.asObservable();
