@@ -1,4 +1,7 @@
 <div class="row">
+  <button class="btn btn-primary" (click)="signOut()">
+    <img src="assets/images/google.png" alt="google_img" width="20px">
+    Sing out from Google</button>
   <div class="col-md-12 ps-3">
     <div>
       {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}
@@ -70,9 +73,7 @@
     </div>
   </div>
   <div class="col-md-12 ps-3">
-    <div class="col-md-12 ps-3">
       <div *ngIf="this.calculatorKcal()">{{currentKcal}}</div>
-    </div>
   </div>
 </div>
 

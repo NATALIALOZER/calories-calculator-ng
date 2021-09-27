@@ -153,9 +153,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.signInService.observable().subscribe(user => {
-      this.userID = user.getId();
-    });
+    this.userID = this.storage.get('ID');
     const data = this.storage.get(this.userID);
     for ( const i in data) {
       data[i].start = new Date(data[i].start);
@@ -164,6 +162,10 @@ export class ScheduleComponent implements OnInit {
         data[i],
       ];
     }
+  }
+
+  public signOut(): void {
+    this.signInService.signOut();
   }
 
   private addMealEvent(action: string, event: CalendarEvent): void {
