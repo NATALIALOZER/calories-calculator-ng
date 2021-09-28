@@ -1,9 +1,8 @@
-import { Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
-class ImageSnippet {
-  public pending: boolean = false;
-  public status: string = 'init';
-  constructor(public src: string, public file: File) {}
+export interface ImageSnippet {
+  file: File;
+  src: string;
 }
 
 @Component({
@@ -12,13 +11,19 @@ class ImageSnippet {
   styleUrls: ['./image-upload.component.scss']
 })
 export class ImageUploadComponent {
+  @Input() public events: any;
   public selectedFile!: ImageSnippet;
+  public selected: boolean = false;
+
   public processFile(imageInput: any): void {
     const file: File = imageInput.files[0];
     const reader = new FileReader();
-    reader.addEventListener('load', (event: any) => {
-      this.selectedFile = new ImageSnippet(event.target.result, file);
-      this.selectedFile.pending = true;
+    reader.addEventListener('load', (el: any) => {
+      this.selectedFile = {
+        file: file,
+        src: el.target.result
+      };
+      this.selected = true;
     });
     reader.readAsDataURL(file);
   }

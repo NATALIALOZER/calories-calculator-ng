@@ -5,6 +5,6 @@ export interface IEvent extends CalendarEvent {
   fats: number;
   proteins: number;
   carbohydrates: number;
-  image: boolean;
+  image: string;
   display: boolean;
 }

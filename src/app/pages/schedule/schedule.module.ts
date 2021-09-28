@@ -9,6 +9,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
+import {ImageUploadModule} from '../../shared/components/image-upload/image-upload.module';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import {MatInputModule} from '@angular/material/input';
     CommonModule,
     ScheduleRoutingModule,
     FormsModule,
+    ImageUploadModule,
     MatButtonModule,
     MatInputModule,
     NgbModalModule,

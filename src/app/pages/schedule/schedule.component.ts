@@ -27,7 +27,6 @@ import {IEvent} from '../../shared/models/interfaces';
 export class ScheduleComponent implements OnInit {
   @ViewChild('modalContent', { static: true }) public modalContent!: TemplateRef<any>;
   @ViewChild('modalAddMeal', { static: true }) public modalAddMeal!: TemplateRef<any>;
-
   public view: CalendarView = CalendarView.Week;
   public CalendarView = CalendarView;
   public viewDate: Date = new Date();
@@ -53,8 +52,7 @@ export class ScheduleComponent implements OnInit {
   public numbers: Map<string, number> = new Map();
   public currentKcal: number = 0;
   public userID!: string;
-
-  private newEvent!: { start: Date; title: string; kcal: number; fats: number; proteins: number; carbohydrates: number; image: boolean; display: boolean };
+  private newEvent!: { start: Date; title: string; kcal: number; fats: number; proteins: number; carbohydrates: number; image: string; display: boolean };
 
   constructor(
     private modal: NgbModal,
@@ -76,7 +74,7 @@ export class ScheduleComponent implements OnInit {
       fats: 30,
       proteins: 30,
       carbohydrates: 30,
-      image: false,
+      image: '',
       display: true
     };
     this.events = [
@@ -145,6 +143,10 @@ export class ScheduleComponent implements OnInit {
 
   public signOut(): void {
     this.signInService.signOut();
+  }
+
+  public cancelEvent(): void {
+    this.events.pop();
   }
 
   private addMealEvent(action: string, event: CalendarEvent): void {

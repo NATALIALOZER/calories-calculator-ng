@@ -118,7 +118,7 @@
 </ng-template>
 <ng-template #modalAddMeal let-close="close">
   <div class="modal-header">
-    <button type="button" class="close close_btn" (click)="close()">
+    <button type="button" class="close close_btn" (click)="close();cancelEvent()">
       <span aria-hidden="true">Cancel</span>
     </button>
     <h1 class="modal-title">New meal</h1>
@@ -204,19 +204,13 @@
         </tr>
         <tr>
           <td>
-            <mat-label>Add photo</mat-label>
-            <input
-              type="text"
-              class="form-control"
-              [(ngModel)]="event.image"
-              (keyup)="rs.refresh.next()"
-            />
+            <app-image-upload [events]="events"></app-image-upload>
           </td>
         </tr>
         <tr>
           <td>
             <button class="btn btn-danger me-2" (click)="deleteEvent(event)">Delete</button>
-            <button type="button" class="btn btn-primary" (click)="addMealInfo(event)">
+            <button type="button" class="btn btn-primary" (click)="close();addMealInfo(event)">
               Add new
             </button>
           </td>

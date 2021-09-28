@@ -9,7 +9,7 @@ import {FormsModule} from '@angular/forms';
   ],
   imports: [
     CommonModule,
-    FormsModule,
+    FormsModule
   ],
   exports: [ImageUploadComponent]
 })

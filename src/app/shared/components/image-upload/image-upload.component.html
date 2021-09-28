@@ -1,19 +1,18 @@
-<p>Add photo</p>
-<label class="image-upload-container btn btn-bwn">
-  <span><img src="./assets/images/image-down.png" alt=""></span>
-  <input #imageInput
-         type="file"
-         accept="image/*"
-         (change)="processFile(imageInput)">
-</label>
-
-<div *ngIf="selectedFile" class="img-preview-container">
-
-  <div class="img-preview"
-       [ngStyle]="{'background-image': 'url('+ selectedFile.src + ')'}">
-  </div>
-
-  <div *ngIf="selectedFile.pending" class="img-loading-overlay">
-    <div class="img-spinning-circle"></div>
+<div *ngFor="let event of events">
+  <label *ngIf="event.display==true" class="image-upload-container btn btn-bwn" [ngStyle]="{'visibility': selected ? 'hidden' : 'visible' }">
+    <span><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Icons8_flat_add_image.svg/1024px-Icons8_flat_add_image.svg.png" alt=""></span>
+    <input
+      type="file"
+      class="form-control"
+      [(ngModel)]="event.image"
+      accept="image/*"
+      (change)="processFile(imageInput)"
+      #imageInput
+    />
+  </label>
+  <div *ngIf="selectedFile" class="img-preview-container">
+    <div class="img-preview"
+         [ngStyle]="{'background-image': 'url('+ selectedFile.src + ')'}">
+    </div>
   </div>
 </div>

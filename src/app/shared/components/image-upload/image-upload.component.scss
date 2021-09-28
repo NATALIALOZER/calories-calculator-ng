@@ -18,13 +18,12 @@ img{
 }
 
 .img-preview-container {
-  background-color: aliceblue;
+  background-color: transparent;
   position: relative;
   padding: 0 20px 20px 20px;
-  margin-top: -40px;
 
   .img-preview {
-    background: center center no-repeat;
+    background: no-repeat;
     background-size: contain;
     height: 116px;
     width: 116px;
