@@ -2,11 +2,11 @@
   <button class="btn btn-primary" (click)="signOut()">
     <img src="assets/images/google.png" alt="google_img" width="20px">
     Sing out from Google</button>
-  <div class="col-md-12 ps-3">
+  <div class="col-md-12 m-2">
     <div>
       {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}
     </div>
-    <div class="btn-group">
+    <div class="btn-group m-1">
       <div
         class="btn btn-primary"
         (click)="setView(CalendarView.Day)"
@@ -76,8 +76,6 @@
       <div *ngIf="this.calculatorKcal()">{{currentKcal}}</div>
   </div>
 </div>
-
-
 <div [ngSwitch]="view" class="table_own_class">
   <mwl-calendar-week-view
     *ngSwitchCase="CalendarView.Week"
@@ -94,11 +92,7 @@
     (eventClicked)="handleEvent('Clicked', $event.event)"
   ></mwl-calendar-day-view>
 </div>
-
-<button class="btn btn-primary add_own_button" (click)="addMeal($event)">
-  +
-</button>
-
+<button class="btn btn-primary add_own_button" (click)="addMeal($event)">+</button>
 <ng-template #modalContent let-close="close" >
   <div class="modal-header">
     <h5 class="modal-title">Event action occurred</h5>
@@ -122,7 +116,6 @@
     </button>
   </div>
 </ng-template>
-
 <ng-template #modalAddMeal let-close="close">
   <div class="modal-header">
     <button type="button" class="close close_btn" (click)="close()">
@@ -178,9 +171,51 @@
         </tr>
         <tr>
           <td>
-            <button class="btn btn-danger" (click)="deleteEvent(event)">
-              Delete
-            </button>
+            <mat-label>Fats(gm)</mat-label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="event.fats"
+              (keyup)="rs.refresh.next()"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-label>Proteins(gm)</mat-label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="event.proteins"
+              (keyup)="rs.refresh.next()"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-label>Carbohydrates(gm)</mat-label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="event.carbohydrates"
+              (keyup)="rs.refresh.next()"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-label>Add photo</mat-label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="event.image"
+              (keyup)="rs.refresh.next()"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <button class="btn btn-danger me-2" (click)="deleteEvent(event)">Delete</button>
             <button type="button" class="btn btn-primary" (click)="addMealInfo(event)">
               Add new
             </button>

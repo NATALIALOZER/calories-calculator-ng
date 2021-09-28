@@ -47,39 +47,14 @@ export class ScheduleComponent implements OnInit {
         afterEnd: true,
       },
       draggable: true,
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      kcal: 340,
-      color: colors.blue,
-      actions: this.actions,
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'A long event that spans 2 months',
-      kcal: 340,
-      color: colors.blue,
-    }
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
-      color: colors.yellow,
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },*/
+    }*/
   ];
   public activeDayIsOpen: boolean = true;
   public numbers: Map<string, number> = new Map();
   public currentKcal: number = 0;
   public userID!: string;
 
-  private newEvent!: { kcal: number; display: boolean; start: Date; title: string };
+  private newEvent!: { start: Date; title: string; kcal: number; fats: number; proteins: number; carbohydrates: number; image: boolean; display: boolean };
 
   constructor(
     private modal: NgbModal,
@@ -98,6 +73,10 @@ export class ScheduleComponent implements OnInit {
       title: 'New meal',
       start: startOfDay(new Date()),
       kcal: 500,
+      fats: 30,
+      proteins: 30,
+      carbohydrates: 30,
+      image: false,
       display: true
     };
     this.events = [
