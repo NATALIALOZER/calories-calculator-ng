@@ -1,9 +1,5 @@
-import {Component, Input} from '@angular/core';
-
-export interface ImageSnippet {
-  file: File;
-  src: string;
-}
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {ImageSnippet} from "../../models/interfaces";
 
 @Component({
   selector: 'app-image-upload',
@@ -26,5 +22,6 @@ export class ImageUploadComponent {
       this.selected = true;
     });
     reader.readAsDataURL(file);
+    console.log(reader.result)
   }
 }

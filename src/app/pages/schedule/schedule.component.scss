@@ -25,14 +25,11 @@ pre {
   position: fixed;
   bottom: 20px;
   left: auto;
-  right: 20px;
+  right: 10px;
   width: 40px;
   border-radius: 50px;
   z-index: 1;
 }
-/*::ng-deep .modal{
-  overflow: hidden;
-}*/
 ::ng-deep .modal-dialog{
   margin: 0;
 }
@@ -53,6 +50,15 @@ table{
   border: none;
   background-color: transparent;
   align-self: flex-start;
+}
+.img-preview {
+  background: no-repeat;
+  background-size: contain;
+  height: 116px;
+  width: 116px;
+}
+.radius_btn{
+  border-radius: 0;
 }
 
 

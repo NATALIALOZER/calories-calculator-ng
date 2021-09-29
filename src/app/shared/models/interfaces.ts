@@ -5,6 +5,11 @@ export interface IEvent extends CalendarEvent {
   fats: number;
   proteins: number;
   carbohydrates: number;
-  image: string;
+  image: ImageSnippet;
   display: boolean;
+}
+
+export interface ImageSnippet {
+  file?: File;
+  src: string;
 }

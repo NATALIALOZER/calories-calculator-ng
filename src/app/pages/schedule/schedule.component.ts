@@ -16,7 +16,7 @@ import {
 import {RefreshService} from '../../shared/services/refresh.service';
 import {GoogleSignInService} from '../../shared/services/google-sign-in.service';
 import {StorageService} from '../../shared/services/storage.service';
-import {IEvent} from '../../shared/models/interfaces';
+import {IEvent, ImageSnippet} from '../../shared/models/interfaces';
 
 @Component({
   selector: 'app-schedule',
@@ -32,7 +32,7 @@ export class ScheduleComponent implements OnInit {
   public viewDate: Date = new Date();
   public modalData!: {
     action: string;
-    event: CalendarEvent;
+    event: IEvent;
   };
   public events: IEvent[] = [
     /*{
@@ -52,7 +52,7 @@ export class ScheduleComponent implements OnInit {
   public numbers: Map<string, number> = new Map();
   public currentKcal: number = 0;
   public userID!: string;
-  private newEvent!: { start: Date; title: string; kcal: number; fats: number; proteins: number; carbohydrates: number; image: string; display: boolean };
+  private newEvent!: { start: Date; title: string; kcal: number; fats: number; proteins: number; carbohydrates: number; image: ImageSnippet; display: boolean };
 
   constructor(
     private modal: NgbModal,
@@ -62,6 +62,7 @@ export class ScheduleComponent implements OnInit {
   ) {}
 
   public handleEvent(action: string, event: CalendarEvent): void {
+    // @ts-ignore
     this.modalData = { event, action };
     this.modal.open(this.modalContent, { size: 'lg' });
   }
@@ -74,7 +75,9 @@ export class ScheduleComponent implements OnInit {
       fats: 30,
       proteins: 30,
       carbohydrates: 30,
-      image: '',
+      image: {
+        src: '',
+      },
       display: true
     };
     this.events = [
@@ -149,9 +152,10 @@ export class ScheduleComponent implements OnInit {
     this.events.pop();
   }
 
-  private addMealEvent(action: string, event: CalendarEvent): void {
+  private addMealEvent(action: string, event: IEvent): void {
     this.modalData = { event, action };
     this.modal.open(this.modalAddMeal, { size: 'lg'});
     this.addEvent();
   }
+
 }
