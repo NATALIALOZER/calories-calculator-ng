@@ -17,6 +17,7 @@ import {RefreshService} from '../../shared/services/refresh.service';
 import {GoogleSignInService} from '../../shared/services/google-sign-in.service';
 import {StorageService} from '../../shared/services/storage.service';
 import {IEvent, ImageSnippet} from '../../shared/models/interfaces';
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-schedule',
