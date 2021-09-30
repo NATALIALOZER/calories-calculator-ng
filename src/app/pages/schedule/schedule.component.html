@@ -72,9 +72,9 @@
       </div>
     </div>
   </div>
-  <div class="col-md-12 ps-3">
+  <!--<div class="col-md-12 ps-3">
       <div *ngIf="this.calculatorKcal()">{{currentKcal}}</div>
-  </div>
+  </div>-->
 </div>
 <div [ngSwitch]="view" class="table_own_class">
   <mwl-calendar-week-view
@@ -104,28 +104,29 @@
   <div class="modal-body">
     <div>
       Time (gm)
-      <pre>{{ modalData.event.start | date:'h:mm a'}}</pre>
+      <p>{{ modalData.event.start | date:'h:mm a'}}</p>
     </div>
     <div>
       Kcal (gm)
-      <pre>{{ modalData.event.kcal}}</pre>
+      <p>{{ modalData.event.kcal}}</p>
     </div>
     <div>
       Fats (gm)
-      <pre>{{ modalData.event.fats}}</pre>
+      <p>{{ modalData.event.fats}}</p>
     </div>
     <div>
       Proteins
-      <pre>{{ modalData.event.proteins}}</pre>
+      <p>{{ modalData.event.proteins}}</p>
     </div>
     <div>
       Carbohydrates (gm)
-      <pre>{{ modalData.event.carbohydrates}}</pre>
+      <p>{{ modalData.event.carbohydrates}}</p>
     </div>
     <div class="img-preview"
          [ngStyle]="{'background-image': 'url('+ modalData.event.image.src + ')'}"></div>
   </div>
   <div class="modal-footer">
+    <button class="btn btn-danger me-2" (click)="deleteEvent(modalData.event); close()">Delete</button>
     <button type="button" class="btn btn-outline-secondary" (click)="close()">
       OK
     </button>
@@ -141,29 +142,24 @@
   </div>
   <div class="modal-body">
     <div class="table-responsive" >
-      <table class="table" *ngFor="let event of events" >
-        <thead >
-        </thead>
-        <tbody *ngIf="event.display==true">
-        <tr >
-          <td>
-            <mat-label>Title</mat-label>
+      <form [formGroup]="form" class="table" *ngFor="let event of events" (ngSubmit)="close();addMealInfo(event)" >
+        <div *ngIf="event.display==true">
+          <div>
+            <label>Title</label>
             <input
               type="text"
               class="form-control"
-              [(ngModel)]="event.title"
+              placeholder="New meal"
               (keyup)="rs.refresh.next()"
+              formControlName="title"
             />
-          </td>
-        </tr>
-          <tr>
-            <td>
-              <mat-label>Time</mat-label>
+          </div>
+            <div>
+              <label>Time</label>
               <input
                 class="form-control"
                 type="text"
                 mwlFlatpickr
-                [(ngModel)]="event.start"
                 (ngModelChange)="rs.refresh.next()"
                 [altInput]="true"
                 [convertModelValue]="true"
@@ -171,67 +167,52 @@
                 dateFormat="Y-m-dTH:i"
                 altFormat="F j, Y H:i"
                 placeholder="Not set"
+                formControlName="start"
               />
-            </td>
-          </tr>
-        <tr>
-          <td>
-            <mat-label>Kcal</mat-label>
+            </div>
+          <div>
+            <label>Kcal</label>
             <input
-              type="text"
               class="form-control"
-              [(ngModel)]="event.kcal"
+              type="text"
               (keyup)="rs.refresh.next()"
+              formControlName="kcal"
             />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <mat-label>Fats(gm)</mat-label>
+          </div>
+
+          <div>
+            <label>Fats(gm)</label>
             <input
-              type="text"
               class="form-control"
-              [(ngModel)]="event.fats"
+              type="text"
               (keyup)="rs.refresh.next()"
+              formControlName="fats"
             />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <mat-label>Proteins(gm)</mat-label>
+          </div>
+
+          <div>
+            <label>Proteins(gm)</label>
             <input
-              type="text"
               class="form-control"
-              [(ngModel)]="event.proteins"
+              type="text"
               (keyup)="rs.refresh.next()"
+              formControlName="proteins"
             />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <mat-label>Carbohydrates(gm)</mat-label>
+          </div>
+
+          <div>
+            <label>Carbohydrates(gm)</label>
             <input
-              type="text"
               class="form-control"
-              [(ngModel)]="event.carbohydrates"
+              type="text"
               (keyup)="rs.refresh.next()"
+              formControlName="carbohydrates"
             />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <app-image-upload (onAdd)="updateImage($event)" [events]="events"></app-image-upload>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <button class="btn btn-danger me-2" (click)="deleteEvent(event)">Delete</button>
-            <button type="button" class="btn btn-primary" (click)="close();addMealInfo(event)">
-              Add new
-            </button>
-          </td>
-        </tr>
-      </table>
+          </div>
+          <app-image-upload (onAdd)="updateImage($event)" [events]="events"></app-image-upload>
+          <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Add new</button>
+        </div>
+      </form>
     </div>
   </div>
   <div class="modal-footer">

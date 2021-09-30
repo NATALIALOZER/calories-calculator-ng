@@ -1,23 +1,12 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewChild,
-  TemplateRef, OnInit,
-} from '@angular/core';
-import {
-  startOfDay,
-  isSameDay
-} from 'date-fns';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  CalendarEvent,
-  CalendarView,
-} from 'angular-calendar';
+import {ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild,} from '@angular/core';
+import {isSameDay, startOfDay} from 'date-fns';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {CalendarEvent, CalendarView,} from 'angular-calendar';
 import {RefreshService} from '../../shared/services/refresh.service';
 import {GoogleSignInService} from '../../shared/services/google-sign-in.service';
 import {StorageService} from '../../shared/services/storage.service';
 import {IEvent, ImageSnippet} from '../../shared/models/interfaces';
-import {FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-schedule',
@@ -53,7 +42,9 @@ export class ScheduleComponent implements OnInit {
   public numbers: Map<string, number> = new Map();
   public currentKcal: number = 0;
   public userID!: string;
-  private newEvent!: { start: Date; title: string; kcal: number; fats: number; proteins: number; carbohydrates: number; image: ImageSnippet; display: boolean };
+  private newEvent!: IEvent;
+  //private newEvent!: FormGroup;
+  form!: FormGroup;
 
   constructor(
     private modal: NgbModal,
@@ -69,7 +60,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   public addEvent(): void {
-    this.newEvent = {
+    /*this.newEvent = {
       title: 'New meal',
       start: startOfDay(new Date()),
       kcal: 500,
@@ -80,8 +71,10 @@ export class ScheduleComponent implements OnInit {
         src: '',
       },
       display: true
-    };
-
+    };*/
+    this.newEvent = {...this.form.value}
+    this.newEvent.display = true;
+    this.newEvent.image = {src: ''}
     this.events = [
       ...this.events,
       this.newEvent,
@@ -89,7 +82,10 @@ export class ScheduleComponent implements OnInit {
   }
 
   public deleteEvent(eventToDelete: CalendarEvent): void {
+    console.log(this.events)
     this.events = this.events.filter(event => event !== eventToDelete);
+    this.storage.set(this.userID, this.events);
+    console.log(this.events)
   }
 
   public setView(view: CalendarView): void {
@@ -127,14 +123,25 @@ export class ScheduleComponent implements OnInit {
   }
 
   public addMealInfo( eventToDisplay: IEvent): void {
-    const previousEvents = this.events.filter( event => event !== eventToDisplay);
-    this.newEvent.display = false;
-    this.events = [...previousEvents, this.newEvent];
-    this.handleEvent( 'Clicked', eventToDisplay);
-    this.storage.set(this.userID, this.events);
+    if(this.form.valid){
+      const previousEvents = this.events.filter( event => event !== eventToDisplay);
+      this.newEvent.display = false;
+      this.events = [...previousEvents, this.newEvent];
+      this.handleEvent( 'Clicked', eventToDisplay);
+      this.storage.set(this.userID, this.events);
+    }
   }
 
   public ngOnInit(): void {
+    this.form = new FormGroup({
+      title: new FormControl('', [ Validators.required ,Validators.minLength(3)]),
+      start: new FormControl(startOfDay(new Date()), Validators.required),
+      kcal: new FormControl(500, Validators.required),
+      fats: new FormControl(30,),
+      proteins: new FormControl(30),
+      carbohydrates: new FormControl(30),
+    })
+
     this.userID = this.storage.get('ID');
     const data = this.storage.get(this.userID);
     for ( const i in data) {
@@ -160,7 +167,7 @@ export class ScheduleComponent implements OnInit {
     this.addEvent();
   }
 
-  public updateImage(image: ImageSnippet): ImageSnippet {
+  public updateImage(image: ImageSnippet): any {
     return this.newEvent.image = image
   }
 }

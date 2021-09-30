@@ -38,9 +38,7 @@ pre {
   border-radius: 0;
   border: none;
 }
-table{
-  font-size: 10px;
-}
+
 .modal-header{
   padding: 2px;
   display: flex;
@@ -59,6 +57,17 @@ table{
 }
 .radius_btn{
   border-radius: 0;
+}
+
+
+input {
+  &.ng-invalid.ng-touched {
+    border: 1px solid red;
+  }
+
+  &.ng-valid.ng-touched {
+    border: 1px solid green;
+  }
 }
 
 

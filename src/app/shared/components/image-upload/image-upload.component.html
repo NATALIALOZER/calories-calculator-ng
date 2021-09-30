@@ -2,8 +2,8 @@
   <label class="image-upload-container btn btn-bwn" [ngStyle]="{'visibility': selected ? 'hidden' : 'visible' }">
     <span><img src="assets/images/image-down.png" alt=""></span>
     <input
-      type="file"
       class="form-control"
+      type="file"
       accept="image/*"
       (change)="processFile(imageInput)"
       #imageInput
