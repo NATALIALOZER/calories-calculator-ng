@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ScheduleComponent } from './schedule.component';
 import {ScheduleRoutingModule} from './schedule-routing.module';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
@@ -19,6 +19,7 @@ import {ImageUploadModule} from '../../shared/components/image-upload/image-uplo
     CommonModule,
     ScheduleRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     ImageUploadModule,
     MatButtonModule,
     MatInputModule,

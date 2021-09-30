@@ -122,9 +122,8 @@
       Carbohydrates (gm)
       <pre>{{ modalData.event.carbohydrates}}</pre>
     </div>
-    <div>
-      <pre>{{ modalData.event.image | json}}</pre>
-    </div>
+    <div class="img-preview"
+         [ngStyle]="{'background-image': 'url('+ modalData.event.image.src + ')'}"></div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-secondary" (click)="close()">
@@ -221,7 +220,7 @@
         </tr>
         <tr>
           <td>
-            <app-image-upload [events]="events"></app-image-upload>
+            <app-image-upload (onAdd)="updateImage($event)" [events]="events"></app-image-upload>
           </td>
         </tr>
         <tr>

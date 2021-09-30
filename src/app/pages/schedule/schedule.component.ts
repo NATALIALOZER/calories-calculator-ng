@@ -80,6 +80,7 @@ export class ScheduleComponent implements OnInit {
       },
       display: true
     };
+
     this.events = [
       ...this.events,
       this.newEvent,
@@ -158,4 +159,7 @@ export class ScheduleComponent implements OnInit {
     this.addEvent();
   }
 
+  public updateImage(image: ImageSnippet): ImageSnippet {
+    return this.newEvent.image = image
+  }
 }

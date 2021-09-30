@@ -9,6 +9,7 @@ import {StorageService} from './storage.service';
 export class GoogleSignInService {
   private auth2!: gapi.auth2.GoogleAuth;
   private subject = new ReplaySubject<gapi.auth2.GoogleUser>(1);
+  private token: string = '';
 
   constructor(
     private zone: NgZone,
@@ -28,8 +29,10 @@ export class GoogleSignInService {
     this.auth2.signIn()
       .then(user => {
         this.subject.next(user);
-        const token = user.getAuthResponse().id_token;
-        this.storage.set('Token', token);
+        this.token = user.getAuthResponse().id_token;
+        this.storage.set('Token', this.token);
+        const expDate = new Date(new Date().getTime() + +user.getAuthResponse().expires_in * 1000)
+        this.storage.set('Token_exp', expDate)
         const id = user.getId();
         this.storage.set('ID', id);
         this.zone.run(() => {
@@ -50,7 +53,21 @@ export class GoogleSignInService {
       });
   }
 
+  get getToken(): string | null {
+    const expDate = new Date(this.storage.get('Token_exp'));
+    if (new Date() > expDate) {
+      this.signOut()
+      return null
+    }
+    return this.storage.get('Token');
+  }
+
+  isAuthenticated(): boolean{
+    return !!this.getToken
+  }
+
   public observable(): Observable<gapi.auth2.GoogleUser> {
     return this.subject.asObservable();
   }
+
 }

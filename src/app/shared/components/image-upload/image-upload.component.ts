@@ -8,6 +8,7 @@ import {ImageSnippet} from "../../models/interfaces";
 })
 export class ImageUploadComponent {
   @Input() public events: any;
+  @Output() onAdd: EventEmitter<ImageSnippet> = new EventEmitter<ImageSnippet>()
   public selectedFile!: ImageSnippet;
   public selected: boolean = false;
 
@@ -20,8 +21,9 @@ export class ImageUploadComponent {
         src: el.target.result
       };
       this.selected = true;
+      this.onAdd.emit(this.selectedFile)
     });
+
     reader.readAsDataURL(file);
-    console.log(reader.result)
   }
 }

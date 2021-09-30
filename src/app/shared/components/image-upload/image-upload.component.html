@@ -1,10 +1,9 @@
-<div *ngFor="let event of events">
-  <label *ngIf="event.display==true" class="image-upload-container btn btn-bwn" [ngStyle]="{'visibility': selected ? 'hidden' : 'visible' }">
+<div>
+  <label class="image-upload-container btn btn-bwn" [ngStyle]="{'visibility': selected ? 'hidden' : 'visible' }">
     <span><img src="assets/images/image-down.png" alt=""></span>
     <input
       type="file"
       class="form-control"
-      [(ngModel)]="event.image"
       accept="image/*"
       (change)="processFile(imageInput)"
       #imageInput
