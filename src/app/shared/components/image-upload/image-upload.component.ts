@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {ImageSnippet} from "../../models/interfaces";
+import {ImageSnippet} from '../../models/interfaces';
 
 @Component({
   selector: 'app-image-upload',
@@ -8,7 +8,7 @@ import {ImageSnippet} from "../../models/interfaces";
 })
 export class ImageUploadComponent {
   @Input() public events: any;
-  @Output() onAdd: EventEmitter<ImageSnippet> = new EventEmitter<ImageSnippet>()
+  @Output() public onAdd: EventEmitter<ImageSnippet> = new EventEmitter<ImageSnippet>();
   public selectedFile!: ImageSnippet;
   public selected: boolean = false;
 
@@ -21,7 +21,7 @@ export class ImageUploadComponent {
         src: el.target.result
       };
       this.selected = true;
-      this.onAdd.emit(this.selectedFile)
+      this.onAdd.emit(this.selectedFile);
     });
 
     reader.readAsDataURL(file);

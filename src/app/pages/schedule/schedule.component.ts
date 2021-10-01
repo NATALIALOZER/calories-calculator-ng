@@ -1,12 +1,12 @@
-import {ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild,} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {isSameDay, startOfDay} from 'date-fns';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {CalendarEvent, CalendarView,} from 'angular-calendar';
+import {CalendarEvent, CalendarView} from 'angular-calendar';
 import {RefreshService} from '../../shared/services/refresh.service';
 import {GoogleSignInService} from '../../shared/services/google-sign-in.service';
 import {StorageService} from '../../shared/services/storage.service';
 import {IEvent, ImageSnippet} from '../../shared/models/interfaces';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-schedule',
@@ -24,27 +24,14 @@ export class ScheduleComponent implements OnInit {
     action: string;
     event: IEvent;
   };
-  public events: IEvent[] = [
-    /*{
-      start: startOfDay(new Date()),
-      title: 'Chicken',
-      kcal: 340,
-      color: colors.blue,
-      actions: this.actions}*/
-      /*resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    }*/
-  ];
+  public events: IEvent[] = [];
   public activeDayIsOpen: boolean = true;
   public numbers: Map<string, number> = new Map();
   public currentKcal: number = 0;
   public userID!: string;
+  public form!: FormGroup;
+
   private newEvent!: IEvent;
-  //private newEvent!: FormGroup;
-  form!: FormGroup;
 
   constructor(
     private modal: NgbModal,
@@ -60,7 +47,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   public addEvent(): void {
-    /*this.newEvent = {
+    this.newEvent = {
       title: 'New meal',
       start: startOfDay(new Date()),
       kcal: 500,
@@ -71,10 +58,8 @@ export class ScheduleComponent implements OnInit {
         src: '',
       },
       display: true
-    };*/
-    this.newEvent = {...this.form.value}
-    this.newEvent.display = true;
-    this.newEvent.image = {src: ''}
+    };
+
     this.events = [
       ...this.events,
       this.newEvent,
@@ -82,10 +67,8 @@ export class ScheduleComponent implements OnInit {
   }
 
   public deleteEvent(eventToDelete: CalendarEvent): void {
-    console.log(this.events)
     this.events = this.events.filter(event => event !== eventToDelete);
     this.storage.set(this.userID, this.events);
-    console.log(this.events)
   }
 
   public setView(view: CalendarView): void {
@@ -123,24 +106,26 @@ export class ScheduleComponent implements OnInit {
   }
 
   public addMealInfo( eventToDisplay: IEvent): void {
-    if(this.form.valid){
+    if (this.form.valid) {
+      const img = this.newEvent.image;
       const previousEvents = this.events.filter( event => event !== eventToDisplay);
+      this.newEvent = {...this.form.value};
       this.newEvent.display = false;
+      this.newEvent.image = img;
       this.events = [...previousEvents, this.newEvent];
-      this.handleEvent( 'Clicked', eventToDisplay);
       this.storage.set(this.userID, this.events);
     }
   }
 
   public ngOnInit(): void {
     this.form = new FormGroup({
-      title: new FormControl('', [ Validators.required ,Validators.minLength(3)]),
-      start: new FormControl(startOfDay(new Date()), Validators.required),
+      title: new FormControl('', [ Validators.required , Validators.minLength(3)]),
+      start: new FormControl(startOfDay(new Date())),
       kcal: new FormControl(500, Validators.required),
-      fats: new FormControl(30,),
+      fats: new FormControl(30),
       proteins: new FormControl(30),
       carbohydrates: new FormControl(30),
-    })
+    });
 
     this.userID = this.storage.get('ID');
     const data = this.storage.get(this.userID);
@@ -161,13 +146,13 @@ export class ScheduleComponent implements OnInit {
     this.events.pop();
   }
 
+  public updateImage(image: ImageSnippet): any {
+    return this.newEvent.image = image;
+  }
+
   private addMealEvent(action: string, event: IEvent): void {
     this.modalData = { event, action };
     this.modal.open(this.modalAddMeal, { size: 'lg'});
     this.addEvent();
-  }
-
-  public updateImage(image: ImageSnippet): any {
-    return this.newEvent.image = image
   }
 }

@@ -144,7 +144,6 @@
     <div class="table-responsive" >
       <form [formGroup]="form" class="table" *ngFor="let event of events" (ngSubmit)="close();addMealInfo(event)" >
         <div *ngIf="event.display==true">
-          <div>
             <label>Title</label>
             <input
               type="text"
@@ -153,23 +152,31 @@
               (keyup)="rs.refresh.next()"
               formControlName="title"
             />
-          </div>
-            <div>
-              <label>Time</label>
-              <input
-                class="form-control"
-                type="text"
-                mwlFlatpickr
-                (ngModelChange)="rs.refresh.next()"
-                [altInput]="true"
-                [convertModelValue]="true"
-                [enableTime]="true"
-                dateFormat="Y-m-dTH:i"
-                altFormat="F j, Y H:i"
-                placeholder="Not set"
-                formControlName="start"
-              />
+            <div *ngIf="form.get('title')!.invalid"
+               class="validation">
+              <small *ngIf="form.get('title')!.errors?.required">
+                Поле title не может быть пустым
+              </small>
+              <small *ngIf="form.get('title')!.errors?.minlength">
+                Слишком короткий title
+              </small>
             </div>
+          <div>
+            <label>Time</label>
+            <input
+              class="form-control"
+              type="text"
+              mwlFlatpickr
+              (ngModelChange)="rs.refresh.next()"
+              [altInput]="true"
+              [convertModelValue]="true"
+              [enableTime]="true"
+              dateFormat="Y-m-dTH:i"
+              altFormat="F j, Y H:i"
+              placeholder="Not set"
+              formControlName="start"
+            />
+          </div>
           <div>
             <label>Kcal</label>
             <input
@@ -178,6 +185,12 @@
               (keyup)="rs.refresh.next()"
               formControlName="kcal"
             />
+            <div *ngIf="form.get('kcal')!.invalid"
+                 class="validation">
+              <small *ngIf="form.get('kcal')!.errors?.required">
+                Поле title не может быть пустым
+              </small>
+            </div>
           </div>
 
           <div>

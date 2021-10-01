@@ -31,8 +31,8 @@ export class GoogleSignInService {
         this.subject.next(user);
         this.token = user.getAuthResponse().id_token;
         this.storage.set('Token', this.token);
-        const expDate = new Date(new Date().getTime() + +user.getAuthResponse().expires_in * 1000)
-        this.storage.set('Token_exp', expDate)
+        const expDate = new Date(new Date().getTime() + +user.getAuthResponse().expires_in * 1000);
+        this.storage.set('Token_exp', expDate);
         const id = user.getId();
         this.storage.set('ID', id);
         this.zone.run(() => {
@@ -56,14 +56,14 @@ export class GoogleSignInService {
   get getToken(): string | null {
     const expDate = new Date(this.storage.get('Token_exp'));
     if (new Date() > expDate) {
-      this.signOut()
-      return null
+      this.signOut();
+      return null;
     }
     return this.storage.get('Token');
   }
 
-  isAuthenticated(): boolean{
-    return !!this.getToken
+  public isAuthenticated(): boolean {
+    return !!this.getToken;
   }
 
   public observable(): Observable<gapi.auth2.GoogleUser> {
