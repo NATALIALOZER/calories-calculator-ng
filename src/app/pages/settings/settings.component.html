@@ -1,0 +1,99 @@
+
+<div class="row p-3">
+  <div class="d-flex justify-content-between ps-0 pe-0">
+    <button type="button" class="btn close_btn" routerLink="/schedule">Cancel
+    </button>
+    <button class="btn btn-primary radius_btn" (click)="signOut()">
+      <img src="assets/images/google.png" alt="google_img" width="20px">
+      Sing out from Google</button>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="calculateKcal()" class="pt-3">
+    <h1 class="text-center pt-2">Personal settings</h1>
+    <div class="form-group">
+      <label for="gender">Gender:</label>
+        <div>
+          <input id="male" type="radio" value="male" name="gender" formControlName="gender" class="me-2">
+          <label for="male" class="me-4">Male</label>
+
+          <input id="female" type="radio" value="female" name="gender" formControlName="gender" class="me-2">
+          <label for="female">Female</label>
+        </div>
+      <div *ngIf="f.gender.touched && f.gender.invalid" class="alert alert-danger">
+        <div *ngIf="f.gender.errors!.required">Gender is required.</div>
+      </div>
+    </div>
+    <div class="mt-3 form-group">
+      <label>Weight (kg)</label>
+      <input
+        type="text"
+        class="form-control"
+        placeholder=55
+        formControlName="weight"
+      />
+    </div>
+    <div *ngIf="f.weight.touched && f.weight.invalid"
+         class="validation">
+      <small *ngIf="f.weight.errors!.required">
+        Поле weight не может быть пустым
+      </small>
+      <small *ngIf="f.weight.errors!.minlength">
+        Слишком маленький weight
+      </small>
+      <small *ngIf="f.weight.errors!.maxlength">
+        Слишком большой weight
+      </small>
+    </div>
+    <div class="mt-3 form-group">
+      <label>Height (sm)</label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="height"
+      />
+    </div>
+    <div *ngIf="f.height.touched && f.height.invalid"
+         class="validation">
+      <small *ngIf="f.height.errors!.required">
+        Поле weight не может быть пустым
+      </small>
+      <small *ngIf="f.height.errors!.minlength">
+        Слишком маленький weight
+      </small>
+      <small *ngIf="f.height.errors!.maxlength">
+        Слишком большой weight
+      </small>
+    </div>
+    <button class="btn btn-primary mt-3" type="submit" [disabled]="!form.valid">Calculate rate for day</button>
+  </form>
+  <form [formGroup]="form2" (ngSubmit)="submit()" class="pt-3">
+    <div>
+      <label>Min kcal</label>
+      <input type="number"
+             class="form-control"
+             placeholder=1230
+             formControlName="min">
+      <label>Max kcal</label>
+      <input type="number"
+             class="form-control"
+             placeholder=1510
+             formControlName="max">
+    </div>
+    <label>Fats (gm)</label>
+    <input type="number"
+           class="form-control"
+           placeholder=55
+           formControlName="fats">
+    <label>Proteins (gm)</label>
+    <input type="number"
+           class="form-control"
+           placeholder=55
+           formControlName="proteins">
+    <label>Carbohydrates (gm)</label>
+    <input type="number"
+           class="form-control"
+           placeholder=55
+           formControlName="carbohydrates">
+    <button class="btn btn-primary mt-3" type="submit" [disabled]="!form.valid">Save settings</button>
+  </form>
+</div>

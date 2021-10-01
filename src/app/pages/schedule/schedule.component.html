@@ -1,7 +1,6 @@
 <div class="row">
-  <button class="btn btn-primary radius_btn" (click)="signOut()">
-    <img src="assets/images/google.png" alt="google_img" width="20px">
-    Sing out from Google</button>
+  <button class="btn btn-outline-info radius_btn" routerLink="/settings">
+    Personal settings</button>
   <div class="col-md-12 mt-2">
     <div>
       {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}

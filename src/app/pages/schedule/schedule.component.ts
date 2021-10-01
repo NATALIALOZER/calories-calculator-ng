@@ -36,7 +36,6 @@ export class ScheduleComponent implements OnInit {
   constructor(
     private modal: NgbModal,
     public rs: RefreshService,
-    private signInService: GoogleSignInService,
     public storage: StorageService
   ) {}
 
@@ -138,9 +137,7 @@ export class ScheduleComponent implements OnInit {
     }
   }
 
-  public signOut(): void {
-    this.signInService.signOut();
-  }
+
 
   public cancelEvent(): void {
     this.events.pop();
