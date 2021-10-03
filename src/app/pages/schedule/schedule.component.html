@@ -71,9 +71,10 @@
       </div>
     </div>
   </div>
-  <!--<div class="col-md-12 ps-3">
-      <div *ngIf="this.calculatorKcal()">{{currentKcal}}</div>
-  </div>-->
+  <div class="col-md-12 ps-3">
+      <!--<div *ngIf="this.calculatorKcal()">{{currentKcal}}</div>-->
+    <div class="calculator_for_day"></div>
+  </div>
 </div>
 <div [ngSwitch]="view" class="table_own_class">
   <mwl-calendar-week-view
