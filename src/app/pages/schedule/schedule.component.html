@@ -73,7 +73,9 @@
   </div>
   <div class="col-md-12 ps-3">
       <!--<div *ngIf="this.calculatorKcal()">{{currentKcal}}</div>-->
-    <div class="calculator_for_day"></div>
+    <div class="calculator_for_day">
+      <app-calculator [viewDate]='viewDate'></app-calculator>
+    </div>
   </div>
 </div>
 <div [ngSwitch]="view" class="table_own_class">
