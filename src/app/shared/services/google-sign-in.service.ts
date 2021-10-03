@@ -47,6 +47,7 @@ export class GoogleSignInService {
         this.subject.next(undefined);
         this.storage.remove('ID');
         this.storage.remove('Token');
+        this.storage.remove('Token_exp');
         this.zone.run(() => {
           this.router.navigate(['login']);
         });

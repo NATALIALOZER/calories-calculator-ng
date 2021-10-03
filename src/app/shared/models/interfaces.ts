@@ -13,3 +13,15 @@ export interface ImageSnippet {
   file?: File;
   src: string;
 }
+
+export interface IPersonal {
+  gender: string;
+  weight: number;
+  height: number;
+  min: number;
+  max: number;
+  fats: number;
+  proteins: number;
+  carbohydrates: number;
+  norma: number;
+}

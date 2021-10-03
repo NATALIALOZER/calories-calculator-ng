@@ -3,7 +3,6 @@ import {isSameDay, startOfDay} from 'date-fns';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CalendarEvent, CalendarView} from 'angular-calendar';
 import {RefreshService} from '../../shared/services/refresh.service';
-import {GoogleSignInService} from '../../shared/services/google-sign-in.service';
 import {StorageService} from '../../shared/services/storage.service';
 import {IEvent, ImageSnippet} from '../../shared/models/interfaces';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -136,8 +135,6 @@ export class ScheduleComponent implements OnInit {
       ];
     }
   }
-
-
 
   public cancelEvent(): void {
     this.events.pop();
