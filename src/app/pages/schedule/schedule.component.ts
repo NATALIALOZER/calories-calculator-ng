@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {isSameDay, startOfDay} from 'date-fns';
+import {startOfDay} from 'date-fns';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CalendarEvent, CalendarView} from 'angular-calendar';
 import {RefreshService} from '../../shared/services/refresh.service';
@@ -25,8 +25,6 @@ export class ScheduleComponent implements OnInit {
   };
   public events: IEvent[] = [];
   public activeDayIsOpen: boolean = true;
-  public numbers: Map<string, number> = new Map();
-  public currentKcal: number = 0;
   public userID!: string;
   public form!: FormGroup;
 
@@ -79,28 +77,6 @@ export class ScheduleComponent implements OnInit {
 
   public addMeal(eventToAdd: any): void {
     this.addMealEvent('Add new meal', eventToAdd);
-  }
-
-  public calculatorKcal(): boolean {
-    const arr: Date[] = [];
-    this.events.forEach(el => {
-      arr.push(el.start);
-    });
-    let fKcal: number = 0;
-    let fKey: string = '';
-    for ( const value in arr) {
-      const findObj = { start: arr[value] };
-      this.events.forEach( item => {
-        if (isSameDay(findObj.start, item.start)) {
-          fKcal += item.kcal;
-          fKey = arr[value].toLocaleDateString();
-        }
-      });
-    }
-    this.numbers.set( fKey, fKcal );
-    const currentDate = this.numbers.get(this.viewDate.toLocaleDateString());
-    currentDate ? this.currentKcal = currentDate : this.currentKcal = 0;
-    return !!currentDate;
   }
 
   public addMealInfo( eventToDisplay: IEvent): void {

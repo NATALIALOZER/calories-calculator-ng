@@ -1,16 +1,8 @@
-<p>{{viewDate}}</p>
-<div class="row">
-  <div class="col-2"></div>
-  <table class="col-10 text-center">
-    <tr>
-      <td>1</td>
-      <td>2</td>
-      <td>3</td>
-      <td>4</td>
-      <td>5</td>
-      <td>6</td>
-      <td>7</td>
-    </tr>
-  </table>
+<div *ngFor="let event of events; let i = index">
+  <div >
+    <!--[ngStyle]="{'display': events[i+1] ? 'none' : 'flex'}"-->
+    <div *ngIf="(event.start| date: 'M/d/yy') == (viewDate| date: 'M/d/yy')">
+      Amount of kcal for the day: {{getSum(event.kcal)}}</div>
+  </div>
 </div>
 

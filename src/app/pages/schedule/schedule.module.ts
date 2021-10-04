@@ -10,8 +10,7 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {ImageUploadModule} from '../../shared/components/image-upload/image-upload.module';
-import {CalculatorComponent} from "../../shared/components/calculator/calculator.component";
-import {SharedModule} from "../../shared/shared.module";
+import {SharedModule} from '../../shared/shared.module';
 
 @NgModule({
   declarations: [
