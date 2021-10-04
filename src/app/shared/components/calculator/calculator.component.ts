@@ -9,9 +9,17 @@ import {IEvent} from '../../models/interfaces';
 export class CalculatorComponent {
   @Input() public viewDate!: Date;
   @Input() public events!: IEvent[];
-  public currentKcal: number = 0;
+  currentKcal: number = 0;
 
-  public getSum(kcal: number): any {
-    return this.currentKcal += +kcal;
+  public getSum(): any {
+    this.currentKcal = 0;
+    for(let event in this.events){
+      let start = `${this.events[event].start.getDate()}, ${this.events[event].start.getMonth()}`;
+      let viewDate = `${this.viewDate.getDate()}, ${this.viewDate.getMonth()}`;
+      if(start==viewDate){
+        this.currentKcal += +this.events[event].kcal;
+      }
+    }
+    return this.currentKcal;
   }
 }

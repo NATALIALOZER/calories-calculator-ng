@@ -1,8 +1,1 @@
-<div *ngFor="let event of events; let i = index">
-  <div >
-    <!--[ngStyle]="{'display': events[i+1] ? 'none' : 'flex'}"-->
-    <div *ngIf="(event.start| date: 'M/d/yy') == (viewDate| date: 'M/d/yy')">
-      Amount of kcal for the day: {{getSum(event.kcal)}}</div>
-  </div>
-</div>
-
+<div>Amount: {{getSum()}}</div>

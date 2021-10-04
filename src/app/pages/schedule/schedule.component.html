@@ -72,7 +72,7 @@
     </div>
   </div>
   <div class="col-md-12 ps-3">
-    <div class="calculator_for_day">
+    <div class="calculator_for_day" *ngIf="view=='day'">
       <app-calculator [viewDate]='viewDate' [events]='events'></app-calculator>
     </div>
   </div>
