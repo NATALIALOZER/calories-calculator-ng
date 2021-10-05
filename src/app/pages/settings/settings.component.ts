@@ -3,6 +3,7 @@ import {GoogleSignInService} from '../../shared/services/google-sign-in.service'
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {StorageService} from '../../shared/services/storage.service';
 import {IPersonal} from '../../shared/models/interfaces';
+import {JsonService} from "../../shared/services/json.service";
 
 @Component({
   selector: 'app-settings',
@@ -19,7 +20,8 @@ export class SettingsComponent implements OnInit {
 
   constructor(
     private signInService: GoogleSignInService,
-    private storage: StorageService
+    private storage: StorageService,
+    public db: JsonService
   ) { }
 
   public ngOnInit(): void {
@@ -71,6 +73,7 @@ export class SettingsComponent implements OnInit {
       this.personalInfo.norma = this.kcalFormula;
     }
     this.storage.set(`Personal data of user-${this.userID}`, this.personalInfo);
+    //this.db.updateUserPersonalData(this.userID,this.personalInfo)
     data.innerHTML = 'Данные успешно внесены';
   }
 }

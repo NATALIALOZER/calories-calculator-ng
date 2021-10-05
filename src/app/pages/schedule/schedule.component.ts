@@ -6,6 +6,7 @@ import {RefreshService} from '../../shared/services/refresh.service';
 import {StorageService} from '../../shared/services/storage.service';
 import {IEvent, ImageSnippet} from '../../shared/models/interfaces';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {JsonService} from '../../shared/services/json.service';
 
 @Component({
   selector: 'app-schedule',
@@ -29,11 +30,13 @@ export class ScheduleComponent implements OnInit {
   public form!: FormGroup;
 
   private newEvent!: IEvent;
+  private users: any;
 
   constructor(
     private modal: NgbModal,
     public rs: RefreshService,
-    public storage: StorageService
+    public storage: StorageService,
+    public jsondb: JsonService,
   ) {}
 
   public handleEvent(action: string, event: CalendarEvent): void {
@@ -110,6 +113,10 @@ export class ScheduleComponent implements OnInit {
         data[i],
       ];
     }
+    /*this.jsondb.getById(this.userID).subscribe((response: any) => {
+      console.log(response)
+      this.users = response;});*/
+
   }
 
   public cancelEvent(): void {
