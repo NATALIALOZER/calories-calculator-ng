@@ -46,10 +46,23 @@ export class GoogleSignInService {
         //this.storage.set('Token', this.token);
         const expDate = new Date(new Date().getTime() + +user.getAuthResponse().expires_in * 1000);
         //this.storage.set('Token_exp', expDate);
-        this.db.setUser(this.id, this.token, expDate).subscribe(data => {
-          console.log(data);
-          this.refreshPeople();
-        });
+        this.db.getUser(this.id).subscribe(
+          (el: any) => {
+            console.log("Value Received :" + el.id);
+            this.db.updateUser(this.id, this.token, expDate).subscribe(data => {
+              console.log(data);
+              this.refreshPeople();
+            });
+          },
+          (err:any) => {
+            console.log("Error caught at Subscriber :" + err);
+            this.db.setUser(this.id, this.token, expDate).subscribe(data => {
+              console.log(data);
+              this.refreshPeople();
+            });
+          },
+          () => console.log("Processing Complete")
+        )
 
         this.zone.run(() => {
           this.router.navigate(['schedule']);

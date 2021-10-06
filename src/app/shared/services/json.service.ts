@@ -8,7 +8,6 @@ import {Observable} from "rxjs";
 })
 export class JsonService {
   public urlApi = 'http://localhost:3000/';
-  private userexist: boolean = false;
   constructor(public http: HttpClient) {
   }
 
@@ -33,32 +32,26 @@ export class JsonService {
   }
 
   public setUser(userId: any,token: any, exp: any): Observable<any> {
-    let req;
-    this.getUser(userId).subscribe(
-        (data: any) => {
-        this.userexist = true;
-        const royal = JSON.parse(data);
-        royal['token'] = token;
-        royal['token_exp'] = exp;
-        const body = JSON.stringify(royal);
-        req = this.http.put(this.urlApi + 'users/' + userId, body, {'headers':{ 'content-type': 'application/json'}});
-      },
-        (error: any) => {
-        console.log('Error', error);
-      }
-    );
-    if (this.userexist === false) {
-      const newUser = {
-        "id": userId,
-        "token": token,
-        "token_exp": exp
-      };
-      const body = JSON.stringify(newUser);
-      req = this.http.post(this.urlApi + 'users', body, {'headers': { 'content-type': 'application/json'}});
-    }
-    // @ts-ignore
-    return req;
+    const newUser = {
+      "id": userId,
+      "token": token,
+      "token_exp": exp
+    };
+    console.log('user no exist')
+    const body = JSON.stringify(newUser);
+    return this.http.post(this.urlApi + 'users', JSON.stringify(newUser), {'headers': { 'content-type': 'application/json'}});
+  }
+
+  public updateUser(userId: any,token: any, exp: any): Observable<any>{
+    const existUser = {
+      "id": userId,
+      "token": token,
+      "token_exp": exp
+    };
+    console.log('user exist')
+    const body = JSON.stringify(existUser);
+    return this.http.put(this.urlApi + 'users/' + userId, body, {'headers':{ 'content-type': 'application/json'}});
   }
 }
 
-//resolve problem with CORS!
+
