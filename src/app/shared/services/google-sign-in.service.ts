@@ -29,19 +29,12 @@ export class GoogleSignInService {
     });
   }
 
-  public refreshPeople(): void {
-    this.db.get()
-      .subscribe((data: any) => {
-        this.users = data;
-      });
-  }
-
   public signIn(): void {
     this.auth2.signIn()
       .then(user => {
         this.subject.next(user);
         this.id = user.getId();
-        //this.storage.set('ID', this.id);
+        this.storage.set('ID', this.id);
         this.token = user.getAuthResponse().id_token;
         //this.storage.set('Token', this.token);
         const expDate = new Date(new Date().getTime() + +user.getAuthResponse().expires_in * 1000);
@@ -50,18 +43,12 @@ export class GoogleSignInService {
           (el: any) => {
             console.log("Value Received :" + el.id);
             this.db.updateUser(this.id, this.token, expDate).subscribe(data => {
-              console.log(data);
-              this.refreshPeople();
             });
           },
           (err:any) => {
             console.log("Error caught at Subscriber :" + err);
-            this.db.setUser(this.id, this.token, expDate).subscribe(data => {
-              console.log(data);
-              this.refreshPeople();
-            });
-          },
-          () => console.log("Processing Complete")
+            this.db.setUser(this.id, this.token, expDate).subscribe();
+          }
         )
 
         this.zone.run(() => {
@@ -84,15 +71,29 @@ export class GoogleSignInService {
       });
   }
 
-  get getToken(): string | null {
-    //const expDate = new Date(this.storage.get('Token_exp'));
-    const expDate = new Date(this.db.getKey(this.id, 'Token_exp'));
+  /*get getToken(): string | null {
+    const expDate = new Date(this.storage.get('Token_exp'));
     if (new Date() > expDate) {
       this.signOut();
       return null;
-    }
-    //return this.storage.get('Token');
-    return this.db.getKey(this.id, 'Token');
+    }return this.storage.get('Token');
+  }*/
+
+  get getToken(): any {
+    this.db.getKey(this.id, 'Token_exp')
+      .subscribe(
+        (date) => {
+          let expDate: Date = new Date(date);
+          if (new Date() > expDate) {
+            this.signOut();
+          }
+        },
+        (err)=>console.log(err),
+      )
+    return this.db.getKey(this.id, 'Token').subscribe(
+      (res) => res ,
+      (err)=> console.log(err),
+    )
   }
 
   public isAuthenticated(): boolean {

@@ -25,3 +25,9 @@ export interface IPersonal {
   carbohydrates: number;
   norma: number;
 }
+
+export interface IUser {
+  "id": string;
+  "token": string;
+  "token_exp": string;
+}

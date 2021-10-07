@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {catchError, map} from "rxjs/operators";
+import {catchError, delay, map} from "rxjs/operators";
 import {Observable} from "rxjs";
+import {IUser} from "../models/interfaces";
 
 @Injectable({
   providedIn: 'root'
@@ -11,47 +12,65 @@ export class JsonService {
   constructor(public http: HttpClient) {
   }
 
-  public get(): any {
+  public get(): Observable<any> {
     return this.http.get<any>(this.urlApi);
   }
 
-  public getUser(id: any): any {
-    return this.http.get<any>(this.urlApi + 'users/' + id);
+  public getUser(id: string): Observable<IUser> {
+    return this.http.get<IUser>(this.urlApi + 'users/' + id);
   }
 
-  public getKey(id: any, key: any): any  {
+  public getKey(id: string, key: string): Observable<any> {
     return this.http.get<any>(this.urlApi + 'users/' + id).pipe(
-      map((data) => {
-        return data[key];
-      }),
+      map((data) => data[key]),
       catchError((err) => {
           console.error(err);
           throw err;
-        }
-      ));
+        })
+    );
   }
 
-  public setUser(userId: any,token: any, exp: any): Observable<any> {
+  public setUser(userId: string,token: string, exp: Date): Observable<any> {
     const newUser = {
       "id": userId,
       "token": token,
-      "token_exp": exp
+      "token_exp": exp,
+      "data":[],
+      "personal_settings": {}
     };
-    console.log('user no exist')
-    const body = JSON.stringify(newUser);
+    console.log('Sign in new user')
     return this.http.post(this.urlApi + 'users', JSON.stringify(newUser), {'headers': { 'content-type': 'application/json'}});
   }
 
-  public updateUser(userId: any,token: any, exp: any): Observable<any>{
-    const existUser = {
-      "id": userId,
+  public updateUser(userId: string,token: string, exp: Date): Observable<any>{
+    console.log('User sign in and exist')
+    return this.http.patch(this.urlApi + 'users/' + userId, JSON.stringify({
       "token": token,
       "token_exp": exp
-    };
-    console.log('user exist')
-    const body = JSON.stringify(existUser);
-    return this.http.put(this.urlApi + 'users/' + userId, body, {'headers':{ 'content-type': 'application/json'}});
+    }), {'headers':{ 'content-type': 'application/json'}});
   }
+
+  public updatePersonalUserData(userId: string, data:any): any{
+    return this.http.patch(this.urlApi + 'users/' + userId, JSON.stringify({"personal_settings":data}), {'headers':{ 'content-type': 'application/json'}})
+  }
+
+  public updateUserEvents(userId: string, data:any): any{
+    return this.http.patch(this.urlApi + 'users/' + userId, JSON.stringify({"data":data}), {'headers':{ 'content-type': 'application/json'}})
+  }
+
+  /*getEvents(userID:string){
+    return this.getKey(userID,"data").pipe(
+      map((data:any[]) => {
+        let events:any[] = [];
+        for ( const i in data) {
+          data[i].start = new Date(data[i].start);
+          events = [...events, data[i]];
+        }
+        return events
+      })
+    )
+  }*/
+
 }
 
 

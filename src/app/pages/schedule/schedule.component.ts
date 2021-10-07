@@ -7,6 +7,8 @@ import {StorageService} from '../../shared/services/storage.service';
 import {IEvent, ImageSnippet} from '../../shared/models/interfaces';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {JsonService} from '../../shared/services/json.service';
+import {catchError, map} from "rxjs/operators";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-schedule',
@@ -36,8 +38,11 @@ export class ScheduleComponent implements OnInit {
     private modal: NgbModal,
     public rs: RefreshService,
     public storage: StorageService,
-    public jsondb: JsonService,
-  ) {}
+    public db: JsonService,
+    private activatedRoute: ActivatedRoute
+  ) {
+    this.userID = this.storage.get('ID');
+  }
 
   public handleEvent(action: string, event: CalendarEvent): void {
     // @ts-ignore
@@ -90,11 +95,30 @@ export class ScheduleComponent implements OnInit {
       this.newEvent.display = false;
       this.newEvent.image = img;
       this.events = [...previousEvents, this.newEvent];
-      this.storage.set(this.userID, this.events);
+      //this.storage.set(this.userID, this.events);
+      this.db.updateUserEvents(this.userID,this.events).subscribe()
     }
   }
 
+  getR(){
+    this.db.getKey(this.userID,"data").pipe(
+      map((data:any[]) => {
+        for ( const i in data) {
+          data[i].start = new Date(data[i].start);
+          this.events = [...this.events, data[i]];
+        }
+      })
+    ).subscribe(
+      data=> data,
+      error => console.log(error),
+      ()=> {
+        console.log("Complete")
+      }
+    )
+  }
+
   public ngOnInit(): void {
+    this.getR()
     this.form = new FormGroup({
       title: new FormControl('', [ Validators.required , Validators.minLength(3)]),
       start: new FormControl(startOfDay(new Date())),
@@ -103,19 +127,7 @@ export class ScheduleComponent implements OnInit {
       proteins: new FormControl(30),
       carbohydrates: new FormControl(30),
     });
-
-    this.userID = this.storage.get('ID');
-    const data = this.storage.get(this.userID);
-    for ( const i in data) {
-      data[i].start = new Date(data[i].start);
-      this.events = [
-        ...this.events,
-        data[i],
-      ];
-    }
-    /*this.jsondb.getById(this.userID).subscribe((response: any) => {
-      console.log(response)
-      this.users = response;});*/
+    //const data = this.storage.get(this.userID);
 
   }
 

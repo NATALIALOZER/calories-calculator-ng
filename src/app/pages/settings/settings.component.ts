@@ -15,8 +15,9 @@ export class SettingsComponent implements OnInit {
   public form2!: FormGroup;
 
   private kcalFormula: number = 0;
-  private userID: number = this.storage.get('ID');
-  private personalInfo: IPersonal = this.storage.get(`Personal data of user-${this.userID}`);
+  private userID: string = this.storage.get('ID');
+  //private personalInfo: IPersonal = this.storage.get(`Personal data of user-${this.userID}`);
+  private personalInfo!: IPersonal;
 
   constructor(
     private signInService: GoogleSignInService,
@@ -26,16 +27,16 @@ export class SettingsComponent implements OnInit {
 
   public ngOnInit(): void {
     this.form = new FormGroup({
-      gender: new FormControl(this.personalInfo.gender, Validators.required),
-      weight: new FormControl(this.personalInfo.weight, [ Validators.required , Validators.minLength(2), Validators.maxLength(3)]),
-      height: new FormControl(this.personalInfo.height, [ Validators.required , Validators.minLength(2), Validators.maxLength(3)]),
+      gender: new FormControl('', Validators.required),
+      weight: new FormControl('', [ Validators.required , Validators.minLength(2), Validators.maxLength(3)]),
+      height: new FormControl('', [ Validators.required , Validators.minLength(2), Validators.maxLength(3)]),
     });
     this.form2 = new FormGroup({
-      min: new FormControl(this.personalInfo.min, Validators.required),
-      max: new FormControl(this.personalInfo.max, Validators.required),
-      fats: new FormControl(this.personalInfo.fats, Validators.required),
-      proteins: new FormControl(this.personalInfo.proteins, Validators.required),
-      carbohydrates: new FormControl(this.personalInfo.carbohydrates, Validators.required)
+      min: new FormControl('', Validators.required),
+      max: new FormControl('', Validators.required),
+      fats: new FormControl('', Validators.required),
+      proteins: new FormControl('', Validators.required),
+      carbohydrates: new FormControl('', Validators.required)
     });
   }
 
@@ -72,8 +73,9 @@ export class SettingsComponent implements OnInit {
     if (this.kcalFormula) {
       this.personalInfo.norma = this.kcalFormula;
     }
-    this.storage.set(`Personal data of user-${this.userID}`, this.personalInfo);
-    //this.db.updateUserPersonalData(this.userID,this.personalInfo)
+    //this.storage.set(`Personal data of user-${this.userID}`, this.personalInfo);
+    this.db.updatePersonalUserData(this.userID,this.personalInfo).subscribe()
+
     data.innerHTML = 'Данные успешно внесены';
   }
 }
