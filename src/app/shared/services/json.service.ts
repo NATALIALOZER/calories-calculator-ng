@@ -2,14 +2,15 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {catchError, delay, map} from "rxjs/operators";
 import {Observable} from "rxjs";
-import {IUser} from "../models/interfaces";
+import {IEvent, IUser} from "../models/interfaces";
+import {RefreshService} from "./refresh.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class JsonService {
   public urlApi = 'http://localhost:3000/';
-  constructor(public http: HttpClient) {
+  constructor(public http: HttpClient,public rs: RefreshService) {
   }
 
   public get(): Observable<any> {
@@ -22,6 +23,7 @@ export class JsonService {
 
   public getKey(id: string, key: string): Observable<any> {
     return this.http.get<any>(this.urlApi + 'users/' + id).pipe(
+      delay(1000),
       map((data) => data[key]),
       catchError((err) => {
           console.error(err);
@@ -58,18 +60,21 @@ export class JsonService {
     return this.http.patch(this.urlApi + 'users/' + userId, JSON.stringify({"data":data}), {'headers':{ 'content-type': 'application/json'}})
   }
 
-  /*getEvents(userID:string){
-    return this.getKey(userID,"data").pipe(
-      map((data:any[]) => {
+  getEvents(userID:string): Observable<IEvent[]>{
+    return this.http.get<any>(this.urlApi + 'users/' + userID).pipe(
+      delay(1000),
+      map((response) => {
         let events:any[] = [];
-        for ( const i in data) {
+        let data = response['data']
+        for ( let i in data) {
           data[i].start = new Date(data[i].start);
           events = [...events, data[i]];
         }
         return events
-      })
+      }),
+
     )
-  }*/
+  }
 
 }
 

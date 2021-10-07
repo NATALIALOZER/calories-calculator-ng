@@ -1,4 +1,5 @@
-<div class="row">
+<div>
+  <div class="row">
   <button class="btn btn-outline-info radius_btn" routerLink="/settings">
     Personal settings</button>
   <div class="col-md-12 mt-2">
@@ -77,6 +78,7 @@
     </div>
   </div>
 </div>
+<button class="btn" (click)="fetchEvents()">Загрузить</button>
 <div [ngSwitch]="view" class="table_own_class">
   <mwl-calendar-week-view
     *ngSwitchCase="CalendarView.Week"
@@ -233,3 +235,4 @@
     <div class="clearfix"></div>
   </div>
 </ng-template>
+</div>

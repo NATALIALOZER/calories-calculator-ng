@@ -30,4 +30,20 @@ export interface IUser {
   "id": string;
   "token": string;
   "token_exp": string;
+  "data": [
+    {
+      "title": string,
+      "start": string,
+      "kcal": number,
+      "fats": number,
+      "proteins": number,
+      "carbohydrates": number,
+      "display": boolean,
+      "image": {
+        "file": {},
+        "src": string
+      }
+    }
+  ],
+  "personal_settings": IPersonal
 }

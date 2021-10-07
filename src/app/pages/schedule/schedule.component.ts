@@ -26,9 +26,10 @@ export class ScheduleComponent implements OnInit {
     action: string;
     event: IEvent;
   };
-  public events: IEvent[] = [];
+  public userID: string = this.storage.get('ID');
+  public events: IEvent[] = []
   public activeDayIsOpen: boolean = true;
-  public userID!: string;
+
   public form!: FormGroup;
 
   private newEvent!: IEvent;
@@ -39,9 +40,7 @@ export class ScheduleComponent implements OnInit {
     public rs: RefreshService,
     public storage: StorageService,
     public db: JsonService,
-    private activatedRoute: ActivatedRoute
   ) {
-    this.userID = this.storage.get('ID');
   }
 
   public handleEvent(action: string, event: CalendarEvent): void {
@@ -100,25 +99,14 @@ export class ScheduleComponent implements OnInit {
     }
   }
 
-  getR(){
-    this.db.getKey(this.userID,"data").pipe(
-      map((data:any[]) => {
-        for ( const i in data) {
-          data[i].start = new Date(data[i].start);
-          this.events = [...this.events, data[i]];
-        }
-      })
-    ).subscribe(
-      data=> data,
-      error => console.log(error),
-      ()=> {
-        console.log("Complete")
-      }
-    )
+  fetchEvents(){
+    return this.events
   }
 
   public ngOnInit(): void {
-    this.getR()
+    this.db.getEvents(this.userID).subscribe(
+      data=> {this.events = data}
+    );
     this.form = new FormGroup({
       title: new FormControl('', [ Validators.required , Validators.minLength(3)]),
       start: new FormControl(startOfDay(new Date())),
@@ -128,7 +116,6 @@ export class ScheduleComponent implements OnInit {
       carbohydrates: new FormControl(30),
     });
     //const data = this.storage.get(this.userID);
-
   }
 
   public cancelEvent(): void {
