@@ -9,14 +9,14 @@ import {IEvent} from '../../models/interfaces';
 export class CalculatorComponent {
   @Input() public viewDate!: Date;
   @Input() public events!: IEvent[];
-  currentKcal: number = 0;
+  private currentKcal: number = 0;
 
   public getSum(): any {
     this.currentKcal = 0;
-    for (let event in this.events)  {
+    for (const event in this.events)  {
       const start = `${this.events[event].start.getDate()}, ${this.events[event].start.getMonth()}`;
       const viewDate = `${this.viewDate.getDate()}, ${this.viewDate.getMonth()}`;
-      if (start == viewDate ) {
+      if (start === viewDate ) {
         this.currentKcal += +this.events[event].kcal;
       }
     }

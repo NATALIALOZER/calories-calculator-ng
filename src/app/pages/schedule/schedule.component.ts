@@ -7,8 +7,7 @@ import {StorageService} from '../../shared/services/storage.service';
 import {IEvent, ImageSnippet} from '../../shared/models/interfaces';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {JsonService} from '../../shared/services/json.service';
-import {catchError, map} from "rxjs/operators";
-import {ActivatedRoute} from "@angular/router";
+
 
 @Component({
   selector: 'app-schedule',
@@ -27,11 +26,9 @@ export class ScheduleComponent implements OnInit {
     event: IEvent;
   };
   public userID: string = this.storage.get('ID');
-  public events: IEvent[] = []
+  public events: IEvent[] = [];
   public activeDayIsOpen: boolean = true;
-
   public form!: FormGroup;
-
   private newEvent!: IEvent;
   private users: any;
 
@@ -95,17 +92,17 @@ export class ScheduleComponent implements OnInit {
       this.newEvent.image = img;
       this.events = [...previousEvents, this.newEvent];
       //this.storage.set(this.userID, this.events);
-      this.db.updateUserEvents(this.userID,this.events).subscribe()
+      this.db.updateUserEvents(this.userID,this.events).subscribe();
     }
   }
 
-  fetchEvents(){
-    return this.events
+  public fetchEvents(): IEvent[] {
+    return this.events;
   }
 
   public ngOnInit(): void {
     this.db.getEvents(this.userID).subscribe(
-      data=> {this.events = data}
+      data => {this.events = data;}
     );
     this.form = new FormGroup({
       title: new FormControl('', [ Validators.required , Validators.minLength(3)]),

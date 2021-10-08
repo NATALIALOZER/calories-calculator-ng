@@ -45,5 +45,5 @@ export interface IUser {
       }
     }
   ],
-  "personal_settings": IPersonal
+  "personal_settings": IPersonal;
 }

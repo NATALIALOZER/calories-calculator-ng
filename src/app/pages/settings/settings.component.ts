@@ -73,9 +73,7 @@ export class SettingsComponent implements OnInit {
     if (this.kcalFormula) {
       this.personalInfo.norma = this.kcalFormula;
     }
-    //this.storage.set(`Personal data of user-${this.userID}`, this.personalInfo);
-    this.db.updatePersonalUserData(this.userID,this.personalInfo).subscribe()
-
+    this.db.updatePersonalUserData(this.userID,this.personalInfo).subscribe();
     data.innerHTML = 'Данные успешно внесены';
   }
 }
