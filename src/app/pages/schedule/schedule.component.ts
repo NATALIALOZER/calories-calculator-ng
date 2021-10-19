@@ -4,7 +4,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CalendarEvent, CalendarView} from 'angular-calendar';
 import {RefreshService} from '../../shared/services/refresh.service';
 import {StorageService} from '../../shared/services/storage.service';
-import {IEvent, ImageSnippet} from '../../shared/models/interfaces';
+import {IEvent, ImageSnippet, IUser} from '../../shared/models/interfaces';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {JsonService} from '../../shared/services/json.service';
 
@@ -30,7 +30,6 @@ export class ScheduleComponent implements OnInit {
   public activeDayIsOpen: boolean = true;
   public form!: FormGroup;
   private newEvent!: IEvent;
-  private users: any;
 
   constructor(
     private modal: NgbModal,
@@ -96,14 +95,27 @@ export class ScheduleComponent implements OnInit {
     }
   }
 
-  public fetchEvents(): IEvent[] {
+  public fetchEvents(events?: IEvent[]): IEvent[] {
     return this.events;
   }
 
   public ngOnInit(): void {
     console.log(this.userID)
     this.db.getEvents(this.userID).subscribe(
-      data => {this.events = data;}
+      (response: IUser) => {
+        let events: any[] = [];
+        const data = response.data;
+        console.log(data);
+        for ( const i in data) {
+          data[i].start = new Date(data[i].start)
+          events = [...events, data[i]];
+        }
+        this.events = events;
+        setTimeout(()=>{
+          this.fetchEvents(events)
+        }, 1000);
+        console.log(this.events)
+      }
     );
     this.form = new FormGroup({
       title: new FormControl('', [ Validators.required , Validators.minLength(3)]),

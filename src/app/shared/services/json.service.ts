@@ -89,17 +89,9 @@ export class JsonService {
     return this.http.patch(this.urlApi + 'users/' + userId, JSON.stringify({'data': data}), { 'headers': { 'content-type': 'application/json'}});
   }
 
-  public getEvents(userID: string): Observable<IEvent[]> {
-    return this.http.get<any>(this.urlApi + 'users/' + userID).pipe(
-      map((response) => {
-        let events: any[] = [];
-        const data = response['data'];
-        for ( const i in data) {
-          data[i].start = new Date(data[i].start);
-          events = [...events, data[i]];
-        }
-        return events;
-      }),
+  public getEvents(userID: string): Observable<IUser> {
+    return this.http.get<IUser>(this.urlApi + 'users/' + userID).pipe(
+
     );
   };
 }

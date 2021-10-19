@@ -33,7 +33,7 @@ export interface IUser {
   "data": [
     {
       "title": string,
-      "start": string,
+      "start": Date,
       "kcal": number,
       "fats": number,
       "proteins": number,
