@@ -101,6 +101,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    console.log(this.userID)
     this.db.getEvents(this.userID).subscribe(
       data => {this.events = data;}
     );

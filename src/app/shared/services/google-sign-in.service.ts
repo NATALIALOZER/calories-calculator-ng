@@ -44,7 +44,7 @@ export class GoogleSignInService {
             });
           },
           (err: Error) => {
-            this.db.setUser(this.id, this.token, expDate).subscribe();
+            this.db.setGoogleUser(this.id, this.token, expDate).subscribe();
           }
         );
         this.zone.run(() => {
@@ -57,6 +57,7 @@ export class GoogleSignInService {
     this.auth2.signOut()
       .then(() => {
         this.subject.next(undefined);
+        this.storage.remove('ID')
         this.zone.run(() => {
           this.router.navigate(['login']);
         });

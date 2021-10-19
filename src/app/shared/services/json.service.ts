@@ -10,11 +10,16 @@ import {RefreshService} from './refresh.service';
 })
 export class JsonService {
   public urlApi = 'http://localhost:3000/';
+  private date = new Date(Date.now() + (3600 * 1000 * 24))
   constructor(public http: HttpClient, public rs: RefreshService) {
   }
 
   public get(): Observable<any> {
     return this.http.get<any>(this.urlApi);
+  }
+
+  public getAllUsers(): Observable<any> {
+    return this.http.get<any>(this.urlApi + 'users/');
   }
 
   public getUser(id: string): Observable<IUser> {
@@ -32,17 +37,41 @@ export class JsonService {
     );
   }
 
-  public setUser(userId: string,token: string, exp: Date): Observable<any> {
-    const newUser = {
+  public setGoogleUser(userId: string, token: string, exp: Date): Observable<any> {
+    let newUser = {
       "id": userId,
       "token": token,
       "token_exp": exp,
-      "data": [],
-      "personal_settings": {}
+      "data": [
+        {}
+      ],
+      "personal_settings": {},
+      "username": "",
+      "email": "",
+      "password": ""
     };
-    console.log('Sign in new user');
+    console.log('User was added by Google account');
     return this.http.post(this.urlApi + 'users', JSON.stringify(newUser), { 'headers': { 'content-type': 'application/json'}});
   }
+
+  public setNewUser(userName: string, userPassword: string, userEmail: string, exp: Date = this.date): Observable<any> {
+    let newUser = {
+      "id": userName,
+      "token": userName,
+      "token_exp": exp,
+      "data": [
+        {}
+      ],
+      "personal_settings": {},
+      "username": userName,
+      "email": userEmail,
+      "password": userPassword
+    };
+    console.log('New user created account');
+    return this.http.post(this.urlApi + 'users', JSON.stringify(newUser), { 'headers': { 'content-type': 'application/json'}});
+  }
+
+
 
   public updateUser(userId: string, token: string, exp: Date): Observable<any> {
     console.log('User sign in and exist');

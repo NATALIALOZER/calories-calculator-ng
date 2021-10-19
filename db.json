@@ -1,13 +1,16 @@
 {
   "users": [
     {
-      "id": "100314104309932510859",
-      "token": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImY0MTk2YWVlMTE5ZmUyMTU5M2Q0OGJmY2ZiNWJmMDAxNzdkZDRhNGQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiOTgwMTE0MzM0MjI5LXBuODB0ZGdpYm1mMXJzZmZpbjV2ZXB0bjRkMDhkMXBxLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiOTgwMTE0MzM0MjI5LXBuODB0ZGdpYm1mMXJzZmZpbjV2ZXB0bjRkMDhkMXBxLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTAwMzE0MTA0MzA5OTMyNTEwODU5IiwiZW1haWwiOiJ1bmljb3JuMTAwNTAwQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoicGg4TzJvNDl5WXBxLTNxbk55bkFUQSIsIm5hbWUiOiLQndCw0YLQsNGI0LAg0JHQsNC70LDQsdGD0YXQsCIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQU9oMTRHalBaQWNja2FvejZ0bDQwTTJkVVFHcFdQLS1SMXFzeVQyRVpzVndYZz1zOTYtYyIsImdpdmVuX25hbWUiOiLQndCw0YLQsNGI0LAiLCJmYW1pbHlfbmFtZSI6ItCR0LDQu9Cw0LHRg9GF0LAiLCJsb2NhbGUiOiJydSIsImlhdCI6MTYzMzcwNDgxNSwiZXhwIjoxNjMzNzA4NDE1LCJqdGkiOiJlYjFjZTViNTY4YTViMDhiNWUyMWU0NmM5NGMzZGM0MWQzZWM0NmZiIn0.h0rjCuX2D4n3HcJIE8v1vaN5lRAXn2IUGe-4AWkCw9G6fz9FIizypTXYsfWh4pnGsL2prlGAWpte4Na91d08etdi48LpacLL7PmPZuohc8PmXfiI6-nF_gu6NmArZ6Nhr95uKrVzte6bgWon_EKRC01NVWJPk3fVWevw9YmwuVTE-KfTOYwSdH9pgnPufODVnGZI6F_-b-xa6N4008eUB-I7iyrjh7hwY1t67vT0R9VauUF-FYb81URmfl1947dU8pghuMczHtuHVG1pAwI-VbgP54eZKogbI7i78CQ-Q87ghpS6Wi4hWeiJ9dVUQ2VoyQVqSQQwpjaCOZxd3xfNHA",
-      "token_exp": "2021-10-08T15:53:34.603Z",
+      "id": "John2",
+      "token": "John2",
+      "token_exp": "2021-10-20T11:03:35.079Z",
       "data": [
         {
-          "title": "Bread",
-          "start": "2021-10-07T21:00:00.000Z",
+          "start": null
+        },
+        {
+          "title": "Mango",
+          "start": "2021-10-18T21:00:00.000Z",
           "kcal": 500,
           "fats": 30,
           "proteins": 30,
@@ -18,7 +21,10 @@
           }
         }
       ],
-      "personal_settings": {}
+      "personal_settings": {},
+      "username": "John2",
+      "email": "jonh2@gmail.com",
+      "password": "123457"
     }
   ]
 }

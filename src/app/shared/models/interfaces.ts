@@ -46,4 +46,7 @@ export interface IUser {
     }
   ],
   "personal_settings": IPersonal;
+  "username": string,
+  "email": string,
+  "password": string
 }
