@@ -125,7 +125,6 @@ export class ScheduleComponent implements OnInit {
       proteins: new FormControl(30),
       carbohydrates: new FormControl(30),
     });
-    //const data = this.storage.get(this.userID);
   }
 
   public cancelEvent(): void {

@@ -41,7 +41,7 @@
           <button class="btn ms-2 mt-3" type="button" (click)="create()">Create new account</button>
         </form>
         <p class="mt-2">or</p>
-        <button (click)="signInGoogle()" *ngIf="user == null" class="btn mt-1 sing_in_btn" ><img src="assets/images/google.png" alt="google_img">
+        <button (click)="signInGoogle()" class="btn mt-1 sing_in_btn" ><img src="assets/images/google.png" alt="google_img">
           Sing in with Google</button>
       </div>
       <div *ngIf="createAccount === true">
@@ -80,7 +80,7 @@
           <button class="btn btn-primary mt-3" type="submit">Submit</button>
         </form>
         <p class="mt-2">or</p>
-        <button (click)="signIn()" *ngIf="user == null" class="btn mt-1 sing_in_btn" ><img src="assets/images/google.png" alt="google_img" width="30px">
+        <button (click)="signInGoogle()" class="btn mt-1 sing_in_btn" ><img src="assets/images/google.png" alt="google_img" width="30px">
           Create account with Google</button>
       </div>
     </div>
