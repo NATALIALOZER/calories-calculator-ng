@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {catchError, delay, map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
-import {IEvent, IUser} from '../models/interfaces';
+import {IUser} from '../models/interfaces';
 import {RefreshService} from './refresh.service';
 
 @Injectable({
@@ -10,7 +10,7 @@ import {RefreshService} from './refresh.service';
 })
 export class JsonService {
   public urlApi = 'http://localhost:3000/';
-  private date = new Date(Date.now() + (3600 * 1000 * 24))
+  private date = new Date(Date.now() + (3600 * 1000 * 24));
   constructor(public http: HttpClient, public rs: RefreshService) {
   }
 
@@ -23,22 +23,21 @@ export class JsonService {
   }
 
   public getUser(id: string): Observable<IUser> {
-    return this.http.get<IUser>(this.urlApi + 'users/' + id);
+    return this.http.get<IUser>(`${this.urlApi}users/${id}`);
   }
 
   public getKey(id: string, key: string): Observable<any> {
-    return this.http.get<any>(this.urlApi + 'users/' + id).pipe(
+    return this.http.get<any>(`${this.urlApi}users/${id}`).pipe(
       delay(1000),
-      map((data) => data[key]),
-      catchError((err) => {
-          console.error(err);
+      map((data: any) => data[key]),
+      catchError((err: Error) => {
           throw err;
         })
     );
   }
 
   public setGoogleUser(userId: string, token: string, exp: Date): Observable<any> {
-    let newUser = {
+    const newUser = {
       "id": userId,
       "token": token,
       "token_exp": exp,
@@ -50,12 +49,12 @@ export class JsonService {
       "email": "",
       "password": ""
     };
-    console.log('User was added by Google account');
+    /*console.log('User was added by Google account');*/
     return this.http.post(this.urlApi + 'users', JSON.stringify(newUser), { 'headers': { 'content-type': 'application/json'}});
   }
 
   public setNewUser(userName: string, userPassword: string, userEmail: string, exp: Date = this.date): Observable<any> {
-    let newUser = {
+    const newUser = {
       "id": userName,
       "token": userName,
       "token_exp": exp,
@@ -67,31 +66,29 @@ export class JsonService {
       "email": userEmail,
       "password": userPassword
     };
-    console.log('New user created account');
+    /*console.log('New user created account');*/
     return this.http.post(this.urlApi + 'users', JSON.stringify(newUser), { 'headers': { 'content-type': 'application/json'}});
   }
 
-
-
   public updateUser(userId: string, token: string, exp: Date): Observable<any> {
     console.log('User sign in and exist');
-    return this.http.patch(this.urlApi + 'users/' + userId, JSON.stringify({
+    return this.http.patch(`${this.urlApi}users/${userId}`, JSON.stringify({
       "token": token,
       "token_exp": exp
     }), {'headers': { 'content-type': 'application/json'}});
   }
 
   public updatePersonalUserData(userId: string, data: any): any {
-    return this.http.patch(this.urlApi + 'users/' + userId, JSON.stringify({'personal_settings': data}), {'headers': { 'content-type': 'application/json'}});
+    return this.http.patch(`${this.urlApi}users/${userId}`, JSON.stringify({'personal_settings': data}), {'headers': { 'content-type': 'application/json'}});
   }
 
   public updateUserEvents(userId: string, data: any): any {
-    return this.http.patch(this.urlApi + 'users/' + userId, JSON.stringify({'data': data}), { 'headers': { 'content-type': 'application/json'}});
+    return this.http.patch(`${this.urlApi}users/${userId}`, JSON.stringify({'data': data}), { 'headers': { 'content-type': 'application/json'}});
   }
 
   public getEvents(userID: string): Observable<IUser> {
-    return this.http.get<IUser>(this.urlApi + 'users/' + userID).pipe(
+    return this.http.get<IUser>(`${this.urlApi}users/${userID}`).pipe(
 
     );
-  };
+  }
 }

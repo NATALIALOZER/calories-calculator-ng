@@ -5,14 +5,14 @@
       <p class="mt-2">Your shape assistant</p>
       <div class="mt-5"><img src="../../../assets/images/logo.png" alt="logo"></div>
       <div *ngIf="createAccount === false">
-        <form [formGroup]="SignupForm" (ngSubmit)="signIn() ">
+        <form [formGroup]="signupForm" (ngSubmit)="signIn() ">
           <div formGroupName="userData">
             <div class="form-group">
               <label for="username">UserName</label>
               <input type="text" class="form-control"
                      id="username" formControlName = "username">
-              <span class="help-block" *ngIf="!SignupForm.get('userData.username').valid&&SignupForm.get('userData.username').touched">
-                     <span *ngIf = "SignupForm.get('userData.username').errors['required']">field is required</span>
+              <span class="help-block" *ngIf="!signupForm.get('userData.username').valid&&signupForm.get('userData.username').touched">
+                     <span *ngIf = "signupForm.get('userData.username').errors['required']">field is required</span>
                    </span>
             </div>
 
@@ -20,8 +20,8 @@
               <label for="password">User password</label>
               <input type="text" class="form-control"
                      id="password" formControlName = "password">
-              <span class="help-block" *ngIf="!SignupForm.get('userData.password').valid&&SignupForm.get('userData.password').touched">
-                     <span *ngIf = "SignupForm.get('userData.password').errors['required']">field is required</span>
+              <span class="help-block" *ngIf="!signupForm.get('userData.password').valid&&signupForm.get('userData.password').touched">
+                     <span *ngIf = "signupForm.get('userData.password').errors['required']">field is required</span>
                    </span>
             </div>
 
@@ -29,12 +29,12 @@
               <label for="email">Email</label>
               <input type="email" class="form-control"
                      id="email" formControlName = "email">
-              <span class="help-block" *ngIf="!SignupForm.get('userData.email').valid && SignupForm.get('userData.email').touched">
+              <span class="help-block" *ngIf="!signupForm.get('userData.email').valid && signupForm.get('userData.email').touched">
                     please enter a valid email id
                    </span>
             </div>
           </div>
-          <span class="help-block" *ngIf="!SignupForm.valid && SignupForm.touched">
+          <span class="help-block" *ngIf="!signupForm.valid && signupForm.touched">
                    please enter valid data
                  </span>
           <button class="btn mt-3" type="submit">Sign in</button>
@@ -69,7 +69,7 @@
               <label for="email">Enter your email</label>
               <input type="email" class="form-control"
                      id="newEmail" formControlName = "email">
-              <span class="help-block" *ngIf="!createAccountForm.get('userData.email').valid && SignupForm.get('userData.email').touched">
+              <span class="help-block" *ngIf="!createAccountForm.get('userData.email').valid && signupForm.get('userData.email').touched">
                     please enter a valid email id
                    </span>
             </div>

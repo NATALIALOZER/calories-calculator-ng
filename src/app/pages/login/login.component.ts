@@ -1,8 +1,8 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {GoogleSignInService} from '../../shared/services/google-sign-in.service';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {LoginService} from "../../shared/services/login.service";
-import {IUser} from "../../shared/models/interfaces";
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {LoginService} from '../../shared/services/login.service';
+import {IUser} from '../../shared/models/interfaces';
 
 @Component({
   selector: 'app-login',
@@ -10,10 +10,10 @@ import {IUser} from "../../shared/models/interfaces";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  SignupForm!: FormGroup;
-  createAccountForm!: FormGroup;
-  createAccount:boolean = false;
-  public user!: gapi.auth2.GoogleUser|IUser;
+  public signupForm!: FormGroup;
+  public createAccountForm!: FormGroup;
+  public createAccount: boolean = false;
+  public user!: gapi.auth2.GoogleUser | IUser;
 
   constructor(
     private login: LoginService,
@@ -23,14 +23,14 @@ export class LoginComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.SignupForm = new FormGroup({
+    this.signupForm = new FormGroup({
       'userData': new FormGroup({
         'username':new FormControl('',[Validators.required]),
         'password':new FormControl('',[Validators.required]),
         'email':new FormControl('',[Validators.required,Validators.email]),
       })
     });
-    this.SignupForm.setValue({
+    this.signupForm.setValue({
       'userData':{
         'username':'John2',
         'password':'123457',
@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
         'password':'123457',
         'email':'jonh2@gmail.com'
       }
-    })
+    });
     this.signInService.observable().subscribe(user => {
       this.user = user;
       this.ref.detectChanges();
@@ -61,16 +61,16 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  signIn(){
-    this.login.SignIn(this.SignupForm)
+  public signIn(): void {
+    this.login.SignIn(this.signupForm);
   }
 
-  create(){
+  public create(): void {
     this.createAccount = !this.createAccount;
   }
 
-  onSubmit(){
-    this.login.createAccount(this.createAccountForm)
+  public onSubmit(): void {
+    this.login.createAccount(this.createAccountForm);
   }
 
 

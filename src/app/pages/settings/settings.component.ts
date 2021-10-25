@@ -3,7 +3,7 @@ import {GoogleSignInService} from '../../shared/services/google-sign-in.service'
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {StorageService} from '../../shared/services/storage.service';
 import {IPersonal} from '../../shared/models/interfaces';
-import {JsonService} from "../../shared/services/json.service";
+import {JsonService} from '../../shared/services/json.service';
 
 @Component({
   selector: 'app-settings',
@@ -73,7 +73,7 @@ export class SettingsComponent implements OnInit {
     if (this.kcalFormula) {
       this.personalInfo.norma = this.kcalFormula;
     }
-    this.db.updatePersonalUserData(this.userID,this.personalInfo).subscribe();
+    this.db.updatePersonalUserData(this.userID, this.personalInfo).subscribe();
     data.innerHTML = 'Данные успешно внесены';
   }
 }

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {startOfDay} from 'date-fns';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CalendarEvent, CalendarView} from 'angular-calendar';
@@ -15,7 +15,7 @@ import {JsonService} from '../../shared/services/json.service';
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.scss']
 })
-export class ScheduleComponent implements OnInit {
+export class ScheduleComponent implements OnInit, AfterViewInit {
   @ViewChild('modalContent', { static: true }) public modalContent!: TemplateRef<any>;
   @ViewChild('modalAddMeal', { static: true }) public modalAddMeal!: TemplateRef<any>;
   public view: CalendarView = CalendarView.Week;
@@ -37,6 +37,22 @@ export class ScheduleComponent implements OnInit {
     public storage: StorageService,
     public db: JsonService,
   ) {
+  }
+
+  public ngOnInit(): void {
+    this.form = new FormGroup({
+      title: new FormControl('', [ Validators.required , Validators.minLength(3)]),
+      start: new FormControl(startOfDay(new Date())),
+      kcal: new FormControl(500, Validators.required),
+      fats: new FormControl(30),
+      proteins: new FormControl(30),
+      carbohydrates: new FormControl(30),
+    });
+    this.getEvents(this.userID);
+  }
+
+  public ngAfterViewInit(): void {
+    this.fetchEvents();
   }
 
   public handleEvent(action: string, event: CalendarEvent): void {
@@ -90,8 +106,7 @@ export class ScheduleComponent implements OnInit {
       this.newEvent.display = false;
       this.newEvent.image = img;
       this.events = [...previousEvents, this.newEvent];
-      //this.storage.set(this.userID, this.events);
-      this.db.updateUserEvents(this.userID,this.events).subscribe();
+      this.db.updateUserEvents(this.userID, this.events).subscribe();
     }
   }
 
@@ -99,32 +114,22 @@ export class ScheduleComponent implements OnInit {
     return this.events;
   }
 
-  public ngOnInit(): void {
-    console.log(this.userID)
-    this.db.getEvents(this.userID).subscribe(
+  public getEvents(user: string): void {
+    this.db.getEvents(user).subscribe(
       (response: IUser) => {
         let events: any[] = [];
         const data = response.data;
-        console.log(data);
-        for ( const i in data) {
-          data[i].start = new Date(data[i].start)
-          events = [...events, data[i]];
-        }
+        data.forEach(item => {
+          item.start = new Date(item.start);
+          events = [...events, item];
+        });
         this.events = events;
-        setTimeout(()=>{
-          this.fetchEvents(events)
+        setTimeout(() => {
+          this.fetchEvents(events);
         }, 1000);
-        console.log(this.events)
+        /*console.log(this.events);*/
       }
     );
-    this.form = new FormGroup({
-      title: new FormControl('', [ Validators.required , Validators.minLength(3)]),
-      start: new FormControl(startOfDay(new Date())),
-      kcal: new FormControl(500, Validators.required),
-      fats: new FormControl(30),
-      proteins: new FormControl(30),
-      carbohydrates: new FormControl(30),
-    });
   }
 
   public cancelEvent(): void {

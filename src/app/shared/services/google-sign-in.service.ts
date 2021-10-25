@@ -39,7 +39,7 @@ export class GoogleSignInService {
         const expDate = new Date(new Date().getTime() + +user.getAuthResponse().expires_in * 1000);
         this.db.getUser(this.id).subscribe(
           (el: any) => {
-            console.log('Value Received :' + el.id);
+            /*console.log('Value Received :' + el.id);*/
             this.db.updateUser(this.id, this.token, expDate).subscribe(data => {
             });
           },
@@ -57,7 +57,7 @@ export class GoogleSignInService {
     this.auth2.signOut()
       .then(() => {
         this.subject.next(undefined);
-        this.storage.remove('ID')
+        this.storage.remove('ID');
         this.zone.run(() => {
           this.router.navigate(['login']);
         });
@@ -67,17 +67,17 @@ export class GoogleSignInService {
   get getToken(): any {
     this.db.getKey(this.id, 'Token_exp')
       .subscribe(
-        (date) => {
+        (date: Date) => {
           const expDate: Date = new Date(date);
           if (new Date() > expDate) {
             this.signOut();
           }
         },
-        (err) => console.log(err),
-      )
+        (err: Error) => err,
+      );
     return this.db.getKey(this.id, 'Token').subscribe(
-      (res) => res ,
-      (err) => console.log(err),
+      (res: string) => res,
+      (err: Error) => err,
     );
   }
 
