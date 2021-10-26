@@ -39,7 +39,6 @@ export class GoogleSignInService {
         const expDate = new Date(new Date().getTime() + +user.getAuthResponse().expires_in * 1000);
         this.db.getUser(this.id).subscribe(
           (el: any) => {
-            /*console.log('Value Received :' + el.id);*/
             this.db.updateUser(this.id, this.token, expDate).subscribe(data => {
             });
           },

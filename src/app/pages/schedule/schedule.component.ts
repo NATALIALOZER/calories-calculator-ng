@@ -1,4 +1,11 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef,
+  Component,
+  DoCheck, KeyValueDiffer, KeyValueDiffers,
+  OnInit,
+  TemplateRef,
+  ViewChild
+} from '@angular/core';
 import {startOfDay} from 'date-fns';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CalendarEvent, CalendarView} from 'angular-calendar';
@@ -15,7 +22,7 @@ import {JsonService} from '../../shared/services/json.service';
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.scss']
 })
-export class ScheduleComponent implements OnInit, AfterViewInit {
+export class ScheduleComponent implements OnInit, DoCheck {
   @ViewChild('modalContent', { static: true }) public modalContent!: TemplateRef<any>;
   @ViewChild('modalAddMeal', { static: true }) public modalAddMeal!: TemplateRef<any>;
   public view: CalendarView = CalendarView.Week;
@@ -31,12 +38,17 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
   public form!: FormGroup;
   private newEvent!: IEvent;
 
+  private differ: KeyValueDiffer<IEvent[], any>;
+
   constructor(
     private modal: NgbModal,
     public rs: RefreshService,
     public storage: StorageService,
     public db: JsonService,
+    private cdr: ChangeDetectorRef,
+    private differs: KeyValueDiffers
   ) {
+    this.differ = this.differs.find({}).create();
   }
 
   public ngOnInit(): void {
@@ -51,8 +63,14 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
     this.getEvents(this.userID);
   }
 
-  public ngAfterViewInit(): void {
-    this.fetchEvents();
+  public ngDoCheck(): void {
+    const changes = this.differ.diff(this.events);
+    if (changes) {
+      changes.forEachChangedItem(item => console.log('Changed', item));
+      changes.forEachAddedItem(item => console.log('Added', item));
+      changes.forEachRemovedItem(item => console.log('Removed', item));
+      this.cdr.markForCheck();
+    }
   }
 
   public handleEvent(action: string, event: CalendarEvent): void {
@@ -110,10 +128,6 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public fetchEvents(events?: IEvent[]): IEvent[] {
-    return this.events;
-  }
-
   public getEvents(user: string): void {
     this.db.getEvents(user).subscribe(
       (response: IUser) => {
@@ -124,9 +138,6 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
           events = [...events, item];
         });
         this.events = events;
-        setTimeout(() => {
-          this.fetchEvents(events);
-        }, 1000);
         /*console.log(this.events);*/
       }
     );

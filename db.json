@@ -16,12 +16,36 @@
           "image": {
             "src": ""
           }
+        },
+        {
+          "title": "Lobster",
+          "start": "2021-10-25T21:00:00.000Z",
+          "kcal": 500,
+          "fats": 30,
+          "proteins": 30,
+          "carbohydrates": 30,
+          "display": false,
+          "image": {
+            "src": ""
+          }
         }
       ],
       "personal_settings": {},
       "username": "John2",
       "email": "jonh2@gmail.com",
       "password": "123457"
+    },
+    {
+      "id": "Natalie",
+      "token": "Natalie",
+      "token_exp": "2021-10-26T08:40:55.738Z",
+      "data": [
+        {}
+      ],
+      "personal_settings": {},
+      "username": "Natalie",
+      "email": "natalie15@gmail.com",
+      "password": "Natalie"
     }
   ]
 }
