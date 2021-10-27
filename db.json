@@ -28,6 +28,42 @@
           "image": {
             "src": ""
           }
+        },
+        {
+          "title": "Fish",
+          "start": "2021-10-26T21:00:00.000Z",
+          "kcal": "540",
+          "fats": 30,
+          "proteins": 30,
+          "carbohydrates": 30,
+          "display": false,
+          "image": {
+            "src": ""
+          }
+        },
+        {
+          "title": "Bio",
+          "start": "2021-10-25T17:00:00.000Z",
+          "kcal": "503",
+          "fats": 30,
+          "proteins": 30,
+          "carbohydrates": 30,
+          "display": false,
+          "image": {
+            "src": ""
+          }
+        },
+        {
+          "title": "Chips",
+          "start": "2021-10-25T09:00:00.000Z",
+          "kcal": "1200",
+          "fats": 30,
+          "proteins": 30,
+          "carbohydrates": 30,
+          "display": false,
+          "image": {
+            "src": ""
+          }
         }
       ],
       "personal_settings": {},

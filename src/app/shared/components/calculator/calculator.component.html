@@ -1,1 +1,5 @@
-<div>Amount: {{getSum()}}</div>
+<div class="w-20 text-primary">Day: {{getSum()}}</div>
+<div class="d-flex w-80">
+  <div *ngFor="let dayKcal of currentKcalArray" class="ms-1 me-4" [ngClass]="getColor(dayKcal)">{{dayKcal}}</div>
+</div>
+
